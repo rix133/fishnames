@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('welcome') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
@@ -14,8 +14,8 @@
                 @if (Route::has('login'))
                     @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
+                        <x-jet-nav-link href="{{ route('species.index') }}" :active="request()->routeIs('species.*')">
+                            {{ __('Liigid') }}
                         </x-jet-nav-link>
                     </div>
                     @else
@@ -33,10 +33,10 @@
                     @endauth
                 @endif
                 @auth
-                    @can('task_access')
+                    @can('estname_access')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-jet-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
-                                Tasks
+                            <x-jet-nav-link href="{{ route('notes.index') }}" :active="request()->routeIs('notes.*')">
+                                Notes
                             </x-jet-nav-link>
                         </div>
                     @endcan
@@ -126,8 +126,8 @@
         <!-- Responsive Navigation Menu -->
         <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
             <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
+                <x-jet-responsive-nav-link href="{{ route('species.index') }}" :active="request()->routeIs('species.*')">
+                    {{ __('Liigid') }}
                 </x-jet-responsive-nav-link>
             </div>
 

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class StoreTaskRequest extends FormRequest
+class UpdateNoteRequest extends FormRequest
 {
     public function rules()
     {
@@ -18,6 +18,6 @@ class StoreTaskRequest extends FormRequest
 
     public function authorize()
     {
-        return Gate::allows('task_access');
+        return Gate::allows('estname_access');
     }
 }

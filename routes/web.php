@@ -15,13 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::resource('tasks', \App\Http\Controllers\TasksController::class);
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    /*
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    */
+    Route::resource('notes', \App\Http\Controllers\NotesController::class);
     Route::resource('users', \App\Http\Controllers\UsersController::class);
+    Route::resource('species', \App\Http\Controllers\SpeciesController::class);
 });
+
