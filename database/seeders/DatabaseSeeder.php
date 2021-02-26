@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             EstnamesTableSeeder::class,
             SpeciesTableSeeder::class,
+            NotesTableSeeder::class,
         ]);
     }
 }

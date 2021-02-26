@@ -43,18 +43,36 @@
                   <div class="text-sm text-gray-900">{{$liik->eng_name}}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                @if($liik->estname_id)
+                  
+                @if($liik->estname)
                   <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                     Kinnitatud
+                  </span>
+                @elseif(count($liik->estnames)>0)
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                      Töös
                   </span>
                 @endif
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    @if($liik->estname_id) 
-                        {{$liik->estnames}}
+                    @if($liik->estname) 
+                        {{$liik->estname}}
                     @else
                     @foreach ($liik->estnames as $name)
+                    <div class="text-sm font-medium text-gray-900">
                         {{$name->est_name}}
+                        <br>
+                        <span class="text-sm text-gray-500">
+                          @foreach ($name->notes as $note)
+                             {{$note ->description}}
+                            <span class="text-sm text-purple-800">
+                              ({{$note->user->name}}) 
+                            </span>
+                            <br>
+                          @endforeach
+                        </span>
+                    </div>
+                    
                     @endforeach
                 @endif 
                 </td>

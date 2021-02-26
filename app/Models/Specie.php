@@ -21,4 +21,6 @@ class Specie extends Model
         return $this->hasMany(Estname::class);
     }
 
+    
+
 }

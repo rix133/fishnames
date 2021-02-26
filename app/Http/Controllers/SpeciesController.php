@@ -16,7 +16,14 @@ class SpeciesController extends Controller
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $species = Specie::with('estnames')->get();
+        $species = Specie::with('estnames.notes.user')->get();
+        foreach($species as $liik){
+            foreach($liik->estnames as $estname){
+                if($estname->accepted){
+                    $liik->estname = $estname->est_name;
+                }
+            }
+        }
 
         return view('species.index', compact('species'));
     }
