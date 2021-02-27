@@ -14,7 +14,7 @@ class SpeciesController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $species = Specie::with('estnames.notes.user')->get();
         foreach($species as $liik){
@@ -47,7 +47,7 @@ class SpeciesController extends Controller
 
     public function show(Specie $liik)
     {
-        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('species.show', compact('liik'));
     }
