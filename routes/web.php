@@ -26,5 +26,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('notes', \App\Http\Controllers\NotesController::class);
     Route::resource('users', \App\Http\Controllers\UsersController::class);
     Route::resource('species', \App\Http\Controllers\SpeciesController::class);
+    Route::resource('estnames', \App\Http\Controllers\EstnamesController::class);
 });
 

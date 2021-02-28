@@ -5,11 +5,6 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                @can('species_access')
-                <th scope="col" class="relative px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tegevused
-                </th>
-                @endcan
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Ladinakeelne nimi
                 </th>
@@ -22,21 +17,14 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Eesti nimevariandid
                 </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Tegevused
+                </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
             @foreach($species as $liik)
               <tr>
-                @can('species_access')
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex">
-                  <button type="button" class="focus:outline-none text-white text-xs py-2 px-4 rounded-md bg-gray-500 hover:bg-gray-600 hover:shadow-lg flex items-center">
-                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Muuda
-                </button>
-                </td>
-                @endcan
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="ml-4">
@@ -81,7 +69,9 @@
                           <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                           </svg>
+                          <a href="{{ route('estnames.edit', $name->id) }}">
                           Arvamused ({{count($name->notes)}})
+                          </a>
                       </button>
                       </td>
                       @can('species_access')
@@ -98,6 +88,19 @@
                     @endforeach
                     </table>
                 @endif 
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <button type="button" class="focus:outline-none text-white text-xs py-2 px-4 rounded-md bg-gray-500 hover:bg-gray-600 hover:shadow-lg inline-flex items-center">
+                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <a href="{{ route('species.edit', $liik->id) }}">
+                    Paku nime
+                    @can('species_access')
+                    / Muuda
+                    @endcan
+                  </a>
+                </button>
                 </td>
               </tr>
               @endforeach

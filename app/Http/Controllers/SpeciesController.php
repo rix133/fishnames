@@ -45,22 +45,20 @@ class SpeciesController extends Controller
         return redirect()->route('species.index');
     }
 
-    public function show(Specie $liik)
+    public function show($id)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $liik = Specie::with('estnames.notes.user')->find($id);
         return view('species.show', compact('liik'));
     }
 
-    public function edit(Specie $liik)
+    public function edit($id)
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $estnames = Estname::pluck('title', 'id');
-
-        $liik->load('estnames');
-
-        return view('species.edit', compact('liik', 'estnames'));
+        
+        #$liik->load('estnames');
+        $liik = Specie::with('estnames.notes.user')->find($id);
+        return view('species.edit', compact('liik'));
     }
 
     public function update(UpdateSpeciesRequest $request, Specie $liik)

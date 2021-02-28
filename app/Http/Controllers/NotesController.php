@@ -15,7 +15,7 @@ class NotesController extends Controller
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $notes = Note::all();
+        $notes = Note::with('estname.specie')->get();
 
         return view('notes.index', compact('notes'));
     }
@@ -44,7 +44,6 @@ class NotesController extends Controller
     public function edit(Note $note)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('notes.edit', compact('note'));
     }
 

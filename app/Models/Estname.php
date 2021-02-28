@@ -20,5 +20,15 @@ class Estname extends Model
        return $this->hasMany(Note::class);
    }
 
+   public function specie()
+   {
+       return $this->belongsTo(Specie::class);
+   }
+
+   public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     
 }
