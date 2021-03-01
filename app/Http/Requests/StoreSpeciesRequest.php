@@ -17,9 +17,6 @@ class StoreSpeciesRequest extends FormRequest
                 'required',
                 'unique:species',
             ],
-            'password' => [
-                'required',
-            ],
             'estnames.id'  => [
                 'integer',
             ],

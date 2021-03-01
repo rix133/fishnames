@@ -15,10 +15,7 @@ class UpdateSpeciesRequest extends FormRequest
             ],
             'latin_name'    => [
                 'required',
-                'unique:species',
-            ],
-            'password' => [
-                'required',
+                'unique:species,latin_name,' . request()->route('species')->id,
             ],
             'estnames.id'  => [
                 'integer',

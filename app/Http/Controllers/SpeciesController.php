@@ -39,58 +39,55 @@ class SpeciesController extends Controller
 
     public function store(StoreSpeciesRequest $request)
     {
-        $specie = Specie::create($request->validated());
-        $specie->estnames()->sync($request->input('estnames', []));
+        $species = Specie::create($request->validated());
+        $species->estnames()->sync($request->input('estnames', []));
 
         return redirect()->route('species.index');
     }
 
-       /**
+    /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Specie  $specie
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Specie $species)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $liik = Specie::with('estnames.notes.user')->find($id);
+        $species -> load('estnames.notes.user');
 
-        return view('species.show', compact('liik'));
+        return view('species.show', compact('species'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Specie  $specie
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Specie $species)
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return $this->show($id);
+        
+        $species->load('estnames');
+
+        return view('species.edit', compact('species'));
     }
 
-    public function update(UpdateSpeciesRequest $request, Specie $specie)
+    public function update(UpdateSpeciesRequest $request, Specie $species)
     {
-        $specie->update($request->validated());
-        $specie->estnames()->sync($request->input('estnames', []));
+        $species->update($request->validated());
+        #$species->estnames()->sync($request->input('estnames', []));
 
         return redirect()->route('species.index');
     }
 
-      /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Specie $species)
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $liik = Specie::find($id);
-        $liik->delete();
+
+        $species->delete();
 
         return redirect()->route('species.index');
     }

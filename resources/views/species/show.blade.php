@@ -8,7 +8,7 @@
     <div>
         <div class="max-w-4xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
-              {{$liik}}
+              {{$species}}
               
              
             </div>
