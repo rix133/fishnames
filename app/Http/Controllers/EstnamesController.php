@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estname;
+use App\Models\Specie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class EstnamesController extends Controller
 {
@@ -22,9 +26,13 @@ class EstnamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $liik = Specie::with("estnames.notes")->find($request->get('spid'));
+        $est_name = '';
+
+        return view('estnames.create', compact('liik', 'est_name'));
     }
 
     /**
@@ -35,7 +43,13 @@ class EstnamesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $user = Auth::user();
+        
+        var_dump($request->specie_id);
+        var_dump($request->est_name);
+        var_dump($user->id);
+        var_dump($request->note);
     }
 
     /**
