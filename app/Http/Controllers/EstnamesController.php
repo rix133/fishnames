@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Estname;
 use App\Models\Specie;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreEstnameRequest;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Note;
 
 class EstnamesController extends Controller
 {
@@ -41,15 +43,27 @@ class EstnamesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEstnameRequest $request)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $user = Auth::user();
+        $request->validated();
+
+        $estname = Estname::create([
+            'user_id' => $user->id,
+            'specie_id' => $request->specie_id, 
+            'est_name' => $request->est_name,
+        ]);
+
+        if(!is_null($request->note)){
+            Note::create([
+                'user_id' => $user->id,
+                "estname_id" => $estname->id,
+                "description" => $request->note,
+                ]);
+        }
+        return redirect()->route('species.index');
         
-        var_dump($request->specie_id);
-        var_dump($request->est_name);
-        var_dump($user->id);
-        var_dump($request->note);
     }
 
     /**

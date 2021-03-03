@@ -15,10 +15,11 @@ class CreateEstnamesTable extends Migration
     {
         Schema::create('estnames', function (Blueprint $table) {
             $table->id();
-            $table->string('est_name');
+            $table->string('est_name')->unique();
             $table->foreignId('user_id');
             $table->foreignId('specie_id');
             $table->boolean('accepted')->default(0);
+            //$table->unique(['est_name', 'specie_id']);
             $table->timestamps();
             $table->softDeletes();
         });

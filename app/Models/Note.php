@@ -11,7 +11,9 @@ class Note extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'description'
+        'description',
+        'user_id',
+        'estname_id',
     ];
 
 

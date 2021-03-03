@@ -14,15 +14,15 @@
                 <form method="post" action="{{ route('estnames.store') }}">
                     @csrf
                     <div class="shadow overflow-hidden sm:rounded-md">
-                        <div class="px-4 py-1 bg-white sm:p-6">
+                        <div class="px-4 py-2 bg-white sm:p-6">
                             <label for="newname" class="block font-medium text-sm text-gray-700">Uus eestikeelne nimi</label>
                             <input type="text" name="est_name" id="newname" type="text" class="form-input rounded-md shadow-sm mt-1 block w-full"
                                     value="{{ old('est_name', '') }}" />
                             @error('est_name')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
-                      
-                            <label for="message" class="block font-medium text-sm text-gray-700 py-2">Lisainfo</label>
+                            
+                            <label for="message" class="block font-medium text-sm text-gray-700 py-1">Kommentaar</label>
                             <textarea id="message" name="note" type="text" placeholder="Valikuline..." class="form-input rounded-md shadow-sm mt-1 block w-full">{{old('note', '')}}</textarea>    
                         </div>
                         <input type="hidden" value="{{$liik->id}}" name="specie_id">
