@@ -74,7 +74,11 @@ class EstnamesController extends Controller
      */
     public function show(Estname $estname)
     {
-        var_dump($estname->load("notes"));
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $estname->load(["notes.user", "user", "specie"]);
+
+        return view('estnames.show', compact('estname'));
+
     }
 
     /**
@@ -85,7 +89,10 @@ class EstnamesController extends Controller
      */
     public function edit(Estname $estname)
     {
-        return $this->show($estname);
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $estname->load(["notes.user", "user", "specie"]);
+
+        return view('estnames.edit', compact('estname'));
     }
 
     /**

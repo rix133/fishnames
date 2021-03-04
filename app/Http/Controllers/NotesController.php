@@ -8,6 +8,7 @@ use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class NotesController extends Controller
 {
@@ -29,9 +30,12 @@ class NotesController extends Controller
 
     public function store(StoreNoteRequest $request)
     {
-        Note::create($request->validated());
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');      
+        $note =  new Note($request->validated());
+        $note->user_id = Auth::user()->id;
+        $note->save();
 
-        return redirect()->route('notes.index');
+        return redirect()->back();
     }
 
     public function show(Note $note)

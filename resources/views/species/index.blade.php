@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <x-speciestable :species="$species"/>  
+    <x-table-species :species="$species"/>  
 
   
 </x-app-layout>

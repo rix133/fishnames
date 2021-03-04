@@ -12,6 +12,9 @@ class StoreNoteRequest extends FormRequest
         return [
             'description' => [
                 'required', 'string',
+            ],
+            'estname_id' => [
+                'required', 'integer',
             ]
         ];
     }
