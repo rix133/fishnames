@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
+use App\Models\Estname;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,22 +49,31 @@ class NotesController extends Controller
     public function edit(Note $note)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('notes.edit', compact('note'));
+        $estname = Estname::find($note->estname_id);
+        $estname->load(["notes.user", "user", "specie"]);
+
+        return view('estnames.edit', compact('estname', 'note'));
     }
 
     public function update(UpdateNoteRequest $request, Note $note)
     {
-        $note->update($request->validated());
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //only creators can edit notes
+        if(Auth::user()->id == $note->user_id){
+            $note->update($request->validated());
+        }
 
-        return redirect()->route('notes.index');
+        return redirect()->back();
     }
 
     public function destroy(Note $note)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //only creators can delete notes
+        if(Auth::user()->id == $note->user_id){
+            $note->delete();
+        }
 
-        $note->delete();
-
-        return redirect()->route('notes.index');
+        return redirect()->back();
     }
 }

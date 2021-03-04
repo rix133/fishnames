@@ -21,6 +21,18 @@ class Specie extends Model
         return $this->hasMany(Estname::class);
     }
 
-    
+
+    public function estname()
+    {
+        $confirmedName  = null;
+        foreach($this->estnames()->get() as $estname){
+            if($estname->accepted){
+                $confirmedName = $estname->est_name;
+            }
+        }
+
+      return $confirmedName;
+    }
+   
 
 }

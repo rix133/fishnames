@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EstnamesController;
+use App\Http\Controllers\SpeciesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     */
     Route::resource('notes', \App\Http\Controllers\NotesController::class);
     Route::resource('users', \App\Http\Controllers\UsersController::class);
-    Route::resource('species', \App\Http\Controllers\SpeciesController::class);
-    Route::resource('estnames', \App\Http\Controllers\EstnamesController::class);
+    Route::get('species/{id}/estnames/reset', [SpeciesController::class, 'reset_estnames'])->name('species.estnames.reset');
+    Route::resource('species', SpeciesController::class);
+    Route::put('estnames/{id}/confirm', [EstnamesController::class, 'confirm'])->name('estnames.confirm');
+    Route::resource('estnames', EstnamesController::class);
 });
 

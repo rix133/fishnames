@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-           Arvamused nime {{$estname->est_name}} kohta
+           {{$estname->est_name}} nimeks liigile <i>{{$estname->specie->latin_name}}</i>
         </h2>
     </x-slot>
     <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">

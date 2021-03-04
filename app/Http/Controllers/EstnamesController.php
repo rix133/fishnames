@@ -117,4 +117,19 @@ class EstnamesController extends Controller
     {
         //
     }
+
+     /**
+     * Confirm this name as the accepted name
+     *
+     * @param  \numeric  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function confirm($id){
+
+        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $estname = Estname::find($id);
+        $estname->accepted = true;
+        $estname->save();
+        return redirect()->route('species.index');
+    }
 }

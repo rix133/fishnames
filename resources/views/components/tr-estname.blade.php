@@ -4,14 +4,19 @@
     </th>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
         @foreach ($species->estnames as $estname)
+            @if($estname->accepted)
+                @php $color = "green" @endphp
+            @else
+                @php $color = "yellow" @endphp
+            @endif
             @if($idSelected == $estname->id)
-                <div class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-yellow-500 text-yellow-900">
+                <div class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-500 text-{{$color}}-900">
                         {{ $estname->est_name }}
                 </div>
               
             @else
                 <a href="{{ route('estnames.edit', $estname->id) }}">
-                    <button class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 hover:bg-yellow-500 hover:text-yellow-900">
+                    <button class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 hover:bg-{{$color}}-500 hover:text-{{$color}}-900">
                     {{ $estname->est_name }}
                     </button> 
                 </a>     

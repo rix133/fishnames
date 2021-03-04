@@ -18,11 +18,7 @@ class SpeciesController extends Controller
 
         $species = Specie::with('estnames.notes.user')->get();
         foreach($species as $specie){
-            foreach($specie->estnames as $estname){
-                if($estname->accepted){
-                    $specie->estname = $estname->est_name;
-                }
-            }
+            $specie->estname = $specie->estname();
         }
 
         return view('species.index', compact('species'));
@@ -91,4 +87,14 @@ class SpeciesController extends Controller
 
         return redirect()->route('species.index');
     }
+
+    public function reset_estnames($id)
+    {
+        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        Estname::where('specie_id', $id)
+        ->where('accepted', true)
+        ->update(['accepted' => false]);      
+
+        return redirect()->route('species.index');
+    } 
 }
