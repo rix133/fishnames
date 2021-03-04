@@ -12,13 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SpeciesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $species = Specie::with('estnames.notes.user')->get();
         foreach($species as $specie){
             $specie->estname = $specie->estname();
+        }
+        if($request->showInprogress){
+           $species = $species->filter(function($value, $key){
+                return is_null($value->estname);
+           });
         }
 
         return view('species.index', compact('species'));

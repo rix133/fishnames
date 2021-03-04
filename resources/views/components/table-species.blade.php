@@ -24,7 +24,7 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
             @foreach($species as $liik)
-              <tr>
+              <tr class="hover:bg-gray-100">
                 <td class="px-4 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="ml-4">

@@ -17,9 +17,9 @@ class NotesController extends Controller
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $notes = Note::with('estname.specie')->get();
+        //$notes = Note::with('estname.specie')->get();
 
-        return view('notes.index', compact('notes'));
+        return redirect()->route('species.index', ['showInprogress' => true]);
     }
 
     public function create()
