@@ -18,7 +18,7 @@ class SpeciesController extends Controller
 
         $species = Specie::with('estnames.notes.user')->get();
         foreach($species as $specie){
-            $specie->estname = $specie->estname();
+            $specie->estname = $specie->estname()->est_name;
         }
         $showInprogress = $request->showInprogress;
 
@@ -46,7 +46,7 @@ class SpeciesController extends Controller
         $species = Specie::create($request->validated());
         $species->estnames()->sync($request->input('estnames', []));
 
-        return redirect()->route('species.index');
+        return redirect()->route('species.index', ['showInprogress' => true]);
     }
 
     /**
@@ -84,7 +84,7 @@ class SpeciesController extends Controller
         $species->update($request->validated());
         #$species->estnames()->sync($request->input('estnames', []));
 
-        return redirect()->route('species.index');
+        return redirect()->route('species.index', ['showInprogress' => true]);
     }
 
     public function destroy(Specie $species)
@@ -103,6 +103,6 @@ class SpeciesController extends Controller
         ->where('accepted', true)
         ->update(['accepted' => false]);      
 
-        return redirect()->route('species.index');
+        return redirect()->route('species.index', ['showInprogress' => true]);
     } 
 }

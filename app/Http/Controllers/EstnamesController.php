@@ -62,7 +62,7 @@ class EstnamesController extends Controller
                 "description" => $request->note,
                 ]);
         }
-        return redirect()->route('species.index');
+        return redirect()->route('species.index', ['showInprogress' => true]);
         
     }
 

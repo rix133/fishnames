@@ -8,7 +8,7 @@
     <div>
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="block mb-8">
-                <a href="{{ route('species.index') }}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi nimekirja</a>
+                <a href="{{ route('species.index', ['showInprogress' => true])}}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi nimekirja</a>
             </div>
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -42,29 +42,29 @@
                                             @enderror
                                         </td>
                                     </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Viimati muudetud
-                                        </th>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                            {{ $species->updated_at }}
-                                        </td>
-                                    </tr>
                                 </form>
+                                <x-tr-species-fixed :species="$species"/>
                                 <x-tr-estname :species="$species" :idSelected="0"/>
-                                @if($species->estname())
+                                @if($species->estname()->est_name)
                                 <tr class="border-b">
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Toimingud
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
                                         @php $color="red" @endphp
-                                        <a href="{{ route('species.estnames.reset', $species->id) }}">
-                                            <button class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 hover:bg-{{$color}}-500 hover:text-{{$color}}-900">
-                                            Tühista kinnitus nimelt: {{$species->estname()}}
+                                        @if($species->estname()->in_termeki)
+                                            <button disabled class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 bg-{{$color}}-500 text-{{$color}}-900">
+                                            EKI andmebaasi laetud nimede muutmise võimalust ei ole loodud
                                             </button> 
-                                        </a> 
+                                        @else
+                                            <a href="{{ route('species.estnames.reset', $species->id) }}">
+                                                <button class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 hover:bg-{{$color}}-500 hover:text-{{$color}}-900">
+                                                Tühista kinnitus nimelt: {{$species->estname()->est_name}}
+                                                </button> 
+                                            </a> 
+                                        @endif
                                     </td>
+
                                 </tr>  
                                 @else
                                     
