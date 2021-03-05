@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Specie;
+use App\Models\Specie;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class SpeciesImport implements ToModel
