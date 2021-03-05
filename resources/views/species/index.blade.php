@@ -14,7 +14,7 @@
                 @php 
                 $color = "yellow";
                 $show = true;
-                $lable = "Näita ainult pooleliolevaid"
+                $lable = "Näita ainult töösolevaid"
                 @endphp
             @endif
             <a href="{{ route('species.index',['showInprogress' => $show]) }}">

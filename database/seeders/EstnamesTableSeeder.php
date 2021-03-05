@@ -21,13 +21,17 @@ class EstnamesTableSeeder extends Seeder
                 'user_id'       =>1,
                 'est_name'       => "Soomuslest",
                 'accepted'     => 1,
+                'in_termeki'     => 1,
+                'updated_at' => date("Y-m-d H:i:s"),
             ],
             [
                 'id'             => 2,
                 'specie_id'     => 2,
                 'user_id'       =>2,
                 'est_name'       => "Lõhe",
+                'in_termeki'     => 0,
                 'accepted'     => 0,
+                'updated_at' => date("Y-m-d H:i:s"),
 
            ],
             [
@@ -36,6 +40,8 @@ class EstnamesTableSeeder extends Seeder
                 'user_id'       =>1,
                 'est_name'       => "Lõhi",
                 'accepted'     => 0,
+                'in_termeki'     => 0,
+                'updated_at' => date("Y-m-d H:i:s"),
 
             ],
 

@@ -19,6 +19,7 @@ class CreateEstnamesTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('specie_id');
             $table->boolean('accepted')->default(0);
+            $table->boolean('in_termeki')->default(0);
             //$table->unique(['est_name', 'specie_id']);
             $table->timestamps();
             $table->softDeletes();
