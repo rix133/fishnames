@@ -6,7 +6,8 @@ use App\Models\Specie;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
+//use PhpOffice\PhpSpreadsheet\Shared\Date;
+use App\Helpers\SpeciesHelper;
 
 class SpeciesExport implements FromCollection,WithHeadings,WithMapping
 {
@@ -28,26 +29,8 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
             $specie->confirmed = $et->updated_at;
             $specie->inEKI = $et->in_termeki;
         }
-
-        switch ($this->request->get('download-filter')) {
-            case 'all':
-                break;
-            case 'confirmed':
-                $species = $species->filter(function($value, $key){
-                    return !is_null($value->estname);
-               });
-                break;
-            case 'inEKI':
-                $species = $species->filter(function($value, $key){
-                    return $value->inEKI;
-               });
-                break;
-            case 'inProgress':
-                $species = $species->filter(function($value, $key){
-                    return is_null($value->estname);
-               });
-                break;
-        }  
+        $filter = $this->request->get('download-filter');
+        $species = SpeciesHelper::new($species)->filterSpecies($filter);
         
         return $species;
     }

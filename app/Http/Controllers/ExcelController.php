@@ -8,7 +8,6 @@ use App\Imports\SpeciesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 
 class ExcelController extends Controller
 {

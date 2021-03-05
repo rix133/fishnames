@@ -9,6 +9,7 @@ use App\Models\Specie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+use App\Helpers\SpeciesHelper;
 
 class SpeciesController extends Controller
 {
@@ -21,12 +22,8 @@ class SpeciesController extends Controller
             $specie->estname = $specie->estname()->est_name;
         }
         $showInprogress = $request->showInprogress;
-
-        if($showInprogress){
-           $species = $species->filter(function($value, $key){
-                return is_null($value->estname);
-           });
-        }
+        $species = SpeciesHelper::new($species)->inProgress($showInprogress);
+        
        
 
         return view('species.index', compact('species', 'showInprogress'));
