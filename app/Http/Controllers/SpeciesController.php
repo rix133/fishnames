@@ -20,13 +20,16 @@ class SpeciesController extends Controller
         foreach($species as $specie){
             $specie->estname = $specie->estname();
         }
-        if($request->showInprogress){
+        $showInprogress = $request->showInprogress;
+
+        if($showInprogress){
            $species = $species->filter(function($value, $key){
                 return is_null($value->estname);
            });
         }
+       
 
-        return view('species.index', compact('species'));
+        return view('species.index', compact('species', 'showInprogress'));
     }
 
     public function create()

@@ -85,7 +85,7 @@
                             </svg>
                             Kinnita
                           </button>
-                      </form>
+                        </form>
                           
 
                       </td>
@@ -96,6 +96,9 @@
                 @endif 
                 </td>
                 <td class="px-4 py-4 whitespace-nowrap">
+                  @if($liik->estname) 
+                  <span></span> 
+                  @else
                   <a href="{{ route('estnames.create', ['spid' => $liik->id]) }}">
                     <button type="button" class="focus:outline-none text-white text-xs py-2 px-4 rounded-md bg-gray-500 hover:bg-gray-600 hover:shadow-lg inline-flex items-center">
                       <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -104,6 +107,7 @@
                       Paku uus nimi
                     </button>
                   </a>
+                  @endif
                 @can('species_access')
                   <a href="{{ route('species.edit', $liik->id) }}">
                     <button type="button" class="focus:outline-none text-white text-xs py-2 px-4 rounded-md bg-red-500 hover:bg-red-600 hover:shadow-lg inline-flex items-center">
