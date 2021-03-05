@@ -8,6 +8,7 @@ use App\Imports\SpeciesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ExcelController extends Controller
 {
@@ -23,10 +24,12 @@ class ExcelController extends Controller
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function export() 
+    public function export(Request $request) 
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return Excel::download(new SpeciesExport, 'species.xlsx');
+        //$user = Auth::user();
+        $fname = 'species-'. date('Y-m-d') . '.xlsx';
+        return Excel::download(new SpeciesExport($request), $fname);
     }
      
     /**
