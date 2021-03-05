@@ -1,0 +1,210 @@
+#-----------------Helper functions---------------------------------------------
+
+#summary function for key comparisons
+#Function adopted from:
+#Villemereuil, P. de, M. B. Morrissey, S. Nakagawa, and H. Schielzeth. 2018.
+#“Fixed-Effect Variance and the Estimation of Repeatabilities and Heritabilities:
+#Issues and Solutions.” Journal of Evolutionary Biology 31 (4): 621–32.
+#https://doi.org/10.1111/jeb.13232.
+
+quickSummary<-function(x){
+  f<-function(y){
+    y<-as.mcmc(y)
+    paste(round(mean(y),3)," (",round(HPDinterval(y)[1],3)," - ",
+          round(HPDinterval(y)[2],3),")",sep="")
+  }
+  vpa<-x$VCV[,"parent_nest"]+x$VCV[,"units"]
+  haty<-as.matrix(x$X)%*%t(x$Sol)
+  varfixed<-apply(haty,2,function(a){mean((a-mean(a))^2)})
+  vpb<-vpa+varfixed
+  
+  #print(paste("Va: ",f(x$VCV[,"parent_nest"])))
+  #print(paste("Vr: ",f(x$VCV[,"units"])))
+  #print(paste("Vp: ",f(vpa)))
+  #print(paste("Vf: ",f(varfixed)))
+  print(paste("naive h2:",f(x$VCV[,"parent_nest"]/vpa)))
+  print(paste("FEffects h2:",f(x$VCV[,"parent_nest"]/vpb)))
+}
+
+h2_lmer<-function(x){
+  parent_vc<-VarCorr(x)$"parent_nest"[1]
+  vardf<-as.data.frame(VarCorr(x))
+  resid<-vardf$vcov[length(vardf$vcov)]
+  h2<-parent_vc/(parent_vc + resid)
+  print(paste("h2: ",round(h2,3)))
+}
+
+
+
+
+
+#Function from:
+#Mixed effects models and extensions in ecology with R. (2009).
+#Zuur, AF, Ieno, EN, Walker, N, Saveliev, AA, and Smith, GM. Springer.
+
+#Copyright Highland Statistics LTD.
+
+#####################################################################
+#VIF FUNCTION.
+#To use:  corvif(YourDataFile)
+corvif <- function(dataz) {
+  dataz <- as.data.frame(dataz)
+  #correlation part
+  #cat("Correlations of the variables\n\n")
+  #tmp_cor <- cor(dataz,use="complete.obs")
+  #print(tmp_cor)
+  
+  #vif part
+  form    <- formula(paste("fooy ~ ",paste(strsplit(names(dataz)," "),
+                                           collapse=" + ")))
+  dataz   <- data.frame(fooy=1,dataz)
+  lm_mod  <- lm(form,dataz)
+  
+  #cat("\n\nVariance inflation factors\n\n")
+  return(myvif(lm_mod))
+}
+
+
+#Support function for corvif. Will not be called by the user
+myvif <- function(mod) {
+  v <- vcov(mod)
+  assign <- attributes(model.matrix(mod))$assign
+  if (names(coefficients(mod)[1]) == "(Intercept)") {
+    v <- v[-1, -1]
+    assign <- assign[-1]
+  } else warning("No intercept: vifs may not be sensible.")
+  terms <- labels(terms(mod))
+  n.terms <- length(terms)
+  if (n.terms < 2) stop("The model contains fewer than 2 terms")
+  if (length(assign) > dim(v)[1] ) {
+    diag(tmp_cor)<-0
+    if (any(tmp_cor==1.0)){
+      return("Sample size is too small, 100% collinearity is present")
+    } else {
+      return("Sample size is too small")
+    }
+  }
+  R <- cov2cor(v)
+  detR <- det(R)
+  result <- matrix(0, n.terms, 3)
+  rownames(result) <- terms
+  colnames(result) <- c("GVIF", "Df", "GVIF^(1/2Df)")
+  for (term in 1:n.terms) {
+    subs <- which(assign == term)
+    result[term, 1] <- det(as.matrix(R[subs, subs])) * 
+      det(as.matrix(R[-subs, -subs])) / detR
+    result[term, 2] <- length(subs)
+  }
+  if (all(result[, 2] == 1)) {
+    result <- data.frame(GVIF=result[, 1])
+  } else {
+    result[, 3] <- result[, 1]^(1/(2 * result[, 2]))
+  }
+  return(result)
+}
+#END VIF FUNCTIONS
+
+
+
+##Function from: https://gkhajduk.github.io/2017-10-25-cleanMCMCglmm/
+clean.MCMC <- function(x) {
+  sols <- summary(x)$solutions  ## pull out relevant info from model summary
+  Gcovs <- summary(x)$Gcovariances
+  Rcovs <- summary(x)$Rcovariances
+  ## convert to dataframes with the row.names as the first col
+  fixed <- data.frame(row.names(sols), sols, row.names = NULL)  
+  random <- data.frame(row.names(Gcovs), Gcovs, row.names = NULL)
+  residual <- data.frame(row.names(Rcovs), Rcovs, row.names = NULL)
+  ## change the columns names to variable, so they all match
+  names(fixed)[names(fixed) == "row.names.sols."] <- "variable"  
+  names(random)[names(random) == "row.names.Gcovs."] <- "variable"
+  names(residual)[names(residual) == "row.names.Rcovs."] <- "variable"
+  ## add ID column for type of effect (fixed, random, residual)
+  fixed$effect <- "fixed"  
+  random$effect <- "random"
+  residual$effect <- "residual"
+  # merge it all together
+  #remove the first and last ie. units (residual veriation) and intercept
+  modelTerms <- as.data.frame(dplyr::bind_rows(fixed, random, residual))  
+  #modelTerms[2:(nrow(modelTerms)-1),]
+  modelTerms <- modelTerms[modelTerms$variable != "units" &
+                             modelTerms$variable != "(Intercept)", ]
+  
+  updateVarNames(modelTerms, "variable")
+  
+  
+}
+
+
+#### Change variable names
+updateVarNames<-function(df, col){
+  
+  df[df[col] == "Father_birth", "variable"] <- "Father hatch year"
+  df
+}
+
+updateVarNames<-function(df, col){
+  
+  df[df[col] == "Father_birth", "variable"] <- "Father hatch year"
+  df[df[col] == "I(mother_age * mother_age)", "variable"] <- "Mother age^2"
+  df[df[col] == "I(foster_mother_age * foster_mother_age)", "variable"] <- 
+    "foster mother age^2"
+  df[df[col] == "I(father_age * father_age)", "variable"] <- "Father age^2"
+  df[df[col] == "I(foster_father_age * foster_father_age)", "variable"] <- 
+    "foster father age^2"
+  df[df[col] == "parent_nest", "variable"] <- "Parent nest"
+  
+  df
+}
+
+hist<-function(x, ...){
+  graphics::hist(x, main = "", ...)
+}
+
+
+makePriors <- function(x){
+  ## calcualte prior to make MCMCglmm startng point better 
+  # apparently By default MCMCglmm uses improper priors
+  TS1.var<-var(x,na.rm=TRUE)
+  #guessing  for the priors by dividing the 
+  #observed phenotypic variation in TS1 in half
+  # for more info see 
+  #http://www.wildanimalmodels.org/tiki-download_wiki_attachment.php?attId=4
+  prior.TS1.1<-list(G=list(G1=list(V=matrix(TS1.var/2),n=1)),
+                    R=list(V=matrix(TS1.var/2),n=1))
+  # prior with  much larger proportion of genetic control
+  prior.TS1.2<-list(G=list(G1=list(V=matrix(TS1.var/0.95),n=1)),
+                    R=list(V=matrix(TS1.var/0.05),n=1))
+  
+  return(list(p1=prior.TS1.1, p2=prior.TS1.2))
+}
+
+
+
+#---------For power analysis----------------------------
+
+#helper functions
+calcPow <- function( model, var, neweffect, nsim = 10){
+  model@beta[names(lme4::fixef(model)) %in% var] <- neweffect
+  res<-simr::powerSim(model, test=simr::fixed(var),
+                nsim = nsim)
+  return(res)
+  
+}
+
+calcPows<-function(model,
+                   var,
+                   neweffects = c(-0.01, -0.015, -0.02, -0.03),
+                   nsim = 10){
+  summaries<-NULL
+  for(nf in neweffects){
+    res <- calcPow(model, var, nf, nsim = nsim)
+    resTbl <- summary(res)
+    resTbl$testedEff <- nf
+    resTbl$Variable <- var
+    summaries <- rbind(summaries, resTbl)
+  }
+  return(summaries)
+}
+
+

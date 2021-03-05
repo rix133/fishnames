@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstnamesController;
 use App\Http\Controllers\SpeciesController;
+use App\Http\Controllers\ExcelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,5 +32,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('species', SpeciesController::class);
     Route::put('estnames/{id}/confirm', [EstnamesController::class, 'confirm'])->name('estnames.confirm');
     Route::resource('estnames', EstnamesController::class);
+
+    // excel stuff
+    Route::get('import-export', [ExcelController::class, 'importExportView'])->name('excel.import-export');
+    Route::get('excel-export', [ExcelController::class, 'export'])->name('excel.export');
+    Route::post('excel-import', [ExcelController::class, 'import'])->name('excel.import');
 });
 
