@@ -33,6 +33,19 @@
                                         </button>
                                         <input class="py-1 mx-6" id="file-upload" type="file" name="file" onchange="checkfile(this)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                                     </form>
+                                    @if ($failures ?? false)
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong>Errors:</strong>
+                                        
+                                        <ul>
+                                            @foreach ($failures as $failure)
+                                                @foreach ($failure->errors() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    @endif
                                 </td>
                             </tr>
                             @endcan

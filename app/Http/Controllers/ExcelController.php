@@ -38,8 +38,15 @@ class ExcelController extends Controller
     public function import() 
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        Excel::import(new SpeciesImport,request()->file('file'));
-             
-        return back();
+        
+        try {
+            Excel::import(new SpeciesImport,request()->file('file'));
+         }
+         catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return view('excel.import-export', compact('failures'));
+         }
+                     
+         return redirect()->route('species.index', ['showInprogress' => false]);
     }
 }
