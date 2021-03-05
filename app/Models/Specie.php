@@ -24,10 +24,10 @@ class Specie extends Model
 
     public function estname()
     {
-        $confirmedName  = null;
+        $confirmedName  = new Estname();
         foreach($this->estnames()->get() as $estname){
             if($estname->accepted){
-                $confirmedName = $estname->est_name;
+                $confirmedName = Estname::find($estname->id);
             }
         }
 
