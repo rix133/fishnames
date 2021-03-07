@@ -4,7 +4,7 @@ namespace App\Imports;
 
 use App\Models\Estname;
 use App\Models\Specie;
-use Maatwebsite\Excel\Concerns\ToModel;
+//use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Illuminate\Support\Collection;

@@ -65,8 +65,9 @@
                                         <select class="py-1 mx-6" name="download-filter">
                                             <option value="all">Kõik</option>
                                             <option value="inProgress">Töös olevad</option>
-                                            <option value="confirmed">Kinnitatud</option>
-                                            <option value="inEKI">EKIs olemas</option>
+                                            <option value="confirmed">Kõik kinnitatud</option>
+                                            <option value="toEKI">Kinnitatud, EKIs puudu</option>
+                                            <option value="inEKI">Kinnitatud, EKIs olemas</option>
                                         </select>
                                     </form>
                                 </td>

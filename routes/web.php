@@ -31,6 +31,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('species/{id}/estnames/reset', [SpeciesController::class, 'reset_estnames'])->name('species.estnames.reset');
     Route::resource('species', SpeciesController::class);
     Route::put('estnames/{id}/confirm', [EstnamesController::class, 'confirm'])->name('estnames.confirm');
+    Route::get('estnames/termeki', [EstnamesController::class, 'termeki'])->name('estnames.termeki');
+    Route::put('estnames/{id}/finish', [EstnamesController::class, 'finish'])->name('estnames.finish');
     Route::resource('estnames', EstnamesController::class);
 
     // excel stuff

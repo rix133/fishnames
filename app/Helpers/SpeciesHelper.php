@@ -24,6 +24,11 @@ class SpeciesHelper
                     return $value->inEKI;
                });
                 break;
+            case 'toEKI':
+                $this->species = $this->species ->filter(function($value, $key){
+                        return !$value->inEKI & !is_null($value->estname);
+                });
+                break;
             case 'inProgress':
                 $this->species = $this->species->filter(function($value, $key){
                     return is_null($value->estname);

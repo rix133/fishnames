@@ -132,4 +132,33 @@ class EstnamesController extends Controller
         $estname->save();
         return redirect()->route('species.index');
     }
+
+    /**
+     * Confirm this name is in termeki
+     *
+     * @param  \numeric  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function finish($id){
+
+        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $estname = Estname::find($id);
+        $estname->in_termeki = true;
+        $estname->save();
+        return redirect()->route('estnames.termeki');
+    }
+
+    /**
+     * Show termeki table
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function termeki(){
+
+        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
+        
+        $estnames = Estname::with('specie')->where('accepted', true)->where('in_termeki', false)->get();
+        return view('estnames.termeki', compact('estnames'));
+    }
 }
