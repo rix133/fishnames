@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     
-    <div class= "my-4 bg-white">
+    <div class= "my-4">
         <x-species-to-eki :estnames="$estnames"/>  
     </div>
     

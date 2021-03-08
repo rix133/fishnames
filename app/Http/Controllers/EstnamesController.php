@@ -158,7 +158,30 @@ class EstnamesController extends Controller
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         
-        $estnames = Estname::with('specie')->where('accepted', true)->where('in_termeki', false)->get();
+        $estnames = Estname::with('specie')->where('accepted', true)->get();
         return view('estnames.termeki', compact('estnames'));
+    }
+
+      /**
+     * Save this name is in termeki
+     *
+     * @param  \Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function savetermeki(Request $request){
+        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $ids = $request->input('in_termeki');
+        if(is_null($ids)) {$ids = [];}
+        $estnames = Estname::where('accepted', true)->get();
+        foreach($estnames as $name){
+            if(in_array($name->id, $ids)){
+                $name->in_termeki = true;
+            }
+            else{
+                $name->in_termeki = false; 
+            }
+            $name->save();
+        } 
+        return redirect()->route('species.index');
     }
 }
