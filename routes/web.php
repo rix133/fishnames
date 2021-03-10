@@ -18,7 +18,7 @@ use App\Http\Controllers\ExcelController;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+})->name('blank');
 
 Route::get('/tere', function () {
     return view('welcome');
