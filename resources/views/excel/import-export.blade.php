@@ -40,7 +40,7 @@
                                         <ul>
                                             @foreach ($failures as $failure)
                                                 @foreach ($failure->errors() as $error)
-                                                    <li>{{ $error }}</li>
+                                        <li>{{$failure->values()['latin_name']}}: {{ $error }}</li>
                                                 @endforeach
                                             @endforeach
                                         </ul>

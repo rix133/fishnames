@@ -21,12 +21,12 @@
                     @else
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('login') }}" class="hover:border-indigo-700">
-                            Login
+                            {{ __('Log in') }}
                         </x-jet-nav-link>
 
                         @if (Route::has('register'))
                             <x-jet-nav-link href="{{ route('register') }}" class="hover:border-indigo-700">
-                                Register
+                                {{ __('Register') }}
                             </x-jet-nav-link>
                         @endif
                     </div>
