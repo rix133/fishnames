@@ -130,6 +130,9 @@ class EstnamesController extends Controller
         $estname = Estname::find($id);
         $estname->accepted = true;
         $estname->save();
+        $species = Specie::find($estname->specie_id);
+        $species->confirmed_estname_id = $estname->id;
+        $species->save();
         return redirect()->route('species.index');
     }
 

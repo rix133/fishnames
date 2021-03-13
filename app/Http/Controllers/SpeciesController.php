@@ -17,14 +17,22 @@ class SpeciesController extends Controller
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $species = Specie::with('estnames.notes.user')->get();
+        
+        $showInprogress = $request->showInprogress;
+        if($showInprogress){
+            $species = Specie::with('estnames.notes.user')
+            ->where("confirmed_estname_id", null)
+            ->get();   
+        }
+        else{
+            $species = Specie::with('estnames.notes.user')->get();
+        }
+
         foreach($species as $specie){
             $specie->estname = $specie->estname()->est_name;
         }
-        $showInprogress = $request->showInprogress;
-        $species = SpeciesHelper::new($species)->inProgress($showInprogress);
+        //$species = SpeciesHelper::new($species)->inProgress($showInprogress);
         
-       
 
         return view('species.index', compact('species', 'showInprogress'));
     }
@@ -98,7 +106,11 @@ class SpeciesController extends Controller
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         Estname::where('specie_id', $id)
         ->where('accepted', true)
-        ->update(['accepted' => false]);      
+        ->update(['accepted' => false]);
+
+        $sp = Specie::find($id);
+        $sp->confirmed_estname_id = null;
+        $sp->save();     
 
         return redirect()->route('species.index', ['showInprogress' => true]);
     } 

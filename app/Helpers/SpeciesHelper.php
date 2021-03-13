@@ -7,6 +7,11 @@ class SpeciesHelper
 {
     public function __construct(Collection $species)
     {
+        foreach($species as $specie){
+            $et = $specie->estname();
+            $specie->confirmed_at = $et->updated_at;
+            $specie->inEKI = $et->in_termeki;
+        }
         $this->species = $species;
     }
     public function filterSpecies($filter)
@@ -16,7 +21,7 @@ class SpeciesHelper
                 break;
             case 'confirmed':
                 $this->species = $this->species->filter(function($value, $key){
-                    return !is_null($value->estname);
+                    return !is_null($value->confirmed_estname_id);
                });
                 break;
             case 'inEKI':
@@ -26,12 +31,12 @@ class SpeciesHelper
                 break;
             case 'toEKI':
                 $this->species = $this->species ->filter(function($value, $key){
-                        return !$value->inEKI & !is_null($value->estname);
+                        return !$value->inEKI & !is_null($value->confirmed_estname_id);
                 });
                 break;
             case 'inProgress':
                 $this->species = $this->species->filter(function($value, $key){
-                    return is_null($value->estname);
+                    return is_null($value->confirmed_estname_id);
                });
                 break;
         }  

@@ -28,12 +28,14 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 'eng_name' => $row['eng_name']
             ]);
             if($row['est_name']){
-                Estname::create([
+                $estName = Estname::create([
                     'est_name' => $row['est_name'],
                     'user_id' => $user->id,
                     'specie_id' => $sp->id,
                     'accepted' => true
                 ]);
+                $sp->confirmed_estname_id = $estName->id;
+                $sp->save();
             }
             
         }

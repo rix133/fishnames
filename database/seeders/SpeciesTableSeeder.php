@@ -14,7 +14,7 @@ class SpeciesTableSeeder extends Seeder
                 'id'             => 1,
                 'latin_name'     => 'Limanda limanda',
                 'eng_name'       => 'Dab',
-                'estname_id'     => 1,
+                'confirmed_estname_id'     => 1,
             ],
             [
                 'id'             => 2,

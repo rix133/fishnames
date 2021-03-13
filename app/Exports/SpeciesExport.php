@@ -23,12 +23,6 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
     {
         
         $species = Specie::all();
-        foreach($species as $specie){
-            $et = $specie->estname();
-            $specie->estname = $et->est_name;
-            $specie->confirmed = $et->updated_at;
-            $specie->inEKI = $et->in_termeki;
-        }
         $filter = $this->request->get('download-filter');
         $species = SpeciesHelper::new($species)->filterSpecies($filter);
         
@@ -59,7 +53,7 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
             $sp->estname,
             //Date::dateTimeToExcel($sp->confirmed),
             $sp->inEKI,
-            $sp->confirmed
+            $sp->confirmed_at
         ];
     }
 

@@ -21,7 +21,7 @@ class CreateSpeciesTable extends Migration
             $table->string("eng_name")->nullable();
             $table->string("describer")->nullable();
             $table->integer("year_described")->nullable();
-            $table->foreignId('estname_id')->nullable();
+            $table->foreignId('confirmed_estname_id')->nullable();
             $table->text('photo_path')->nullable();
             $table->timestamps();
         });
