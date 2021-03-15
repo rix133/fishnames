@@ -50,7 +50,7 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
         return [
             $sp->latin_name,
             $sp->eng_name,
-            $sp->estname,
+            $sp->estname()->est_name,
             //Date::dateTimeToExcel($sp->confirmed),
             $sp->inEKI,
             $sp->confirmed_at
