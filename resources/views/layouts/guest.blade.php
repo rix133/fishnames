@@ -11,10 +11,10 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ config('app.dir','').mix('css/app.css') }}">
+        <link rel="stylesheet" href="{{ env("APP_DIR",'').mix('css/app.css') }}">
 
         <!-- Scripts -->
-        <script src="{{ config('app.dir','').mix('js/app.js') }}" defer></script>
+        <script src="{{ env("APP_DIR",'').mix('js/app.js') }}" defer></script>
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
