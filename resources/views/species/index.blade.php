@@ -23,6 +23,10 @@
                 </button> 
             </a>
         </span>
+        <span class="float-right">
+            <x-search/>
+        </span>
+    
         
     </x-slot>
     <x-table-species :species="$species"/>  

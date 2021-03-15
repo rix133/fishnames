@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstnamesController;
 use App\Http\Controllers\SpeciesController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,5 +45,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('import-export', [ExcelController::class, 'importExportView'])->name('excel.import-export');
     Route::get('excel-export', [ExcelController::class, 'export'])->name('excel.export');
     Route::post('excel-import', [ExcelController::class, 'import'])->name('excel.import');
+
+    //search
+    Route::post('search', [SearchController::class, 'index'])->name('search');
 });
 
