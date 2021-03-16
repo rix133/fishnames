@@ -23,7 +23,7 @@
                 </button> 
             </a>
         </span>
-        <span class="float-right">
+        <span class="float-right hidden md:block">
             <x-search/>
         </span>
     
