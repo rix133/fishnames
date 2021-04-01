@@ -16,6 +16,9 @@ class CreateEstnamesTable extends Migration
         Schema::create('estnames', function (Blueprint $table) {
             $table->id();
             $table->string('est_name')->unique();
+            $table->string('est_genus')->nullable();
+            $table->string('est_family')->nullable();
+            $table->foreignId('source_id')->nullable();
             $table->foreignId('user_id');
             $table->foreignId('specie_id');
             $table->boolean('accepted')->default(0);

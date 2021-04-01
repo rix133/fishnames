@@ -16,12 +16,14 @@ class CreateSpeciesTable extends Migration
         Schema::create('species', function (Blueprint $table) {
             $table->id();
             $table->string("latin_name")->unique();
-            $table->string("latin_genus")->nullable();
+            $table->boolean("is_genus")->default(0);
             $table->string("latin_family")->nullable();
             $table->string("eng_name")->nullable();
             $table->string("describer")->nullable();
             $table->integer("year_described")->nullable();
+            $table->foreignId('source_id')->nullable();
             $table->foreignId('confirmed_estname_id')->nullable();
+            $table->foreignId('new_id')->nullable(); // if this is set it is an old latin name
             $table->text('photo_path')->nullable();
             $table->timestamps();
         });
