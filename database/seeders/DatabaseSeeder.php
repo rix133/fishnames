@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             EstnamesTableSeeder::class,
             SpeciesTableSeeder::class,
             NotesTableSeeder::class,
+            SourcesTableSeeder::class,
         ]);
     }
 }

@@ -20,7 +20,6 @@ class SpeciesTableSeeder extends Seeder
                 'id'             => 2,
                 'latin_name'     => 'Salmo salar',
                 'eng_name'       => 'Atlantic salmon',
-                'latin_genus'    => "Salmo",
                 'latin_family'   => "Salmonidae",
                 'describer'       => "Linnaeus",
                 "year_described" =>  1758,
@@ -28,19 +27,38 @@ class SpeciesTableSeeder extends Seeder
             ],
             [
                 'id'             => 3,
-                'latin_name'     => 'Oncorhynchus kisutch',
-                'eng_name'       => 'Coho salmon',
-                'latin_genus'    => "Oncorhynchus",
+                'latin_name'     => 'Oncorhynchus mykiss',
+                'eng_name'       => 'Rainbow trout',
+                'source_id'      => 1,
                 'latin_family'   => "Salmonidae",
                 "year_described" =>  1792,
                 'photo_path'     =>  'https://static.inaturalist.org/photos/71244986/small.jpg?1588643876'
             ],
-
+            [
+                'id'             => 4,
+                'latin_name'     => 'Oncorhynchus',
+                'is_genus'       => true,
+                'latin_family'   => "Salmonidae",
+                "year_described" =>  1792,
+                'photo_path'     =>  'https://static.inaturalist.org/photos/71244986/small.jpg?1588643876'
+            ],
+            [
+                'id'             => 5,
+                'latin_name'     => 'Salmo mykiss',
+                'eng_name'       => 'Rainbow trout',
+                'new_id'         => 3,
+                'source_id'      => 1,
+                'latin_family'   => "Salmonidae",
+                "year_described" =>  1792,
+                'photo_path'     =>  'https://static.inaturalist.org/photos/71244986/small.jpg?1588643876'
+            ],
             ];
         
         Specie::insert($species[0]);
         Specie::insert($species[1]);
         Specie::insert($species[2]);
-        
+        Specie::insert($species[3]);
+        Specie::insert($species[4]);
+       
     }
 }
