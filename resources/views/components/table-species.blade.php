@@ -14,8 +14,9 @@
                 <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Staatus
                 </th>
+
                 <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Eesti nimevariandid
+                  Eestikeelne nimi
                 </th>
                 <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Tegevused
@@ -34,8 +35,8 @@
                       @if($liik->describer)
                       <div class="text-sm text-gray-500">
                         {{$liik->describer}} ({{$liik->year_described}})
-                      @endif  
                       </div>
+                      @endif  
                     </div>
                   </div>
                 </td>
@@ -57,6 +58,11 @@
                 <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                     @if($liik->estname) 
                         {{$liik->estname}}
+                        @if($liik->source)
+                          <div class="text-sm text-gray-500">
+                            Allikas: {{$liik->source->name}}
+                          </div>
+                       @endif 
                     @else
                     <table class="divide-y divide-gray-200 float-right">
                     @foreach ($liik->estnames as $name)

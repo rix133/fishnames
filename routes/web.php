@@ -48,5 +48,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     //search
     Route::post('search', [SearchController::class, 'index'])->name('search');
+
+    //sources
+    Route::resource('sources', \App\Http\Controllers\SourcesController::class);
 });
 

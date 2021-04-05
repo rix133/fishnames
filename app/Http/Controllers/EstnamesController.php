@@ -75,7 +75,7 @@ class EstnamesController extends Controller
     public function show(Estname $estname)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $estname->load(["notes.user", "user", "specie"]);
+        $estname->load(["notes.user", "user", "specie","source"]);
 
         return view('estnames.show', compact('estname'));
 
@@ -90,7 +90,7 @@ class EstnamesController extends Controller
     public function edit(Estname $estname)
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $estname->load(["notes.user", "user", "specie"]);
+        $estname->load(["notes.user", "user", "specie", "source"]);
 
         return view('estnames.edit', compact('estname'));
     }
@@ -132,6 +132,7 @@ class EstnamesController extends Controller
         $estname->save();
         $species = Specie::find($estname->specie_id);
         $species->confirmed_estname_id = $estname->id;
+        $species->source_id = 1; #make the name source Terminoloogiakomisjon
         $species->save();
         return redirect()->route('species.index');
     }

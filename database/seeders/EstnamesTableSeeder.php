@@ -18,6 +18,7 @@ class EstnamesTableSeeder extends Seeder
             [
                 'id'             => 1,
                 'specie_id'     => 1,
+                'source_id'    => 1,
                 'user_id'       =>1,
                 'est_name'       => "Soomuslest",
                 'accepted'     => 1,
@@ -27,6 +28,7 @@ class EstnamesTableSeeder extends Seeder
             [
                 'id'             => 2,
                 'specie_id'     => 2,
+                'source_id'      => 2,
                 'user_id'       =>2,
                 'est_name'       => "Lõhe",
                 'in_termeki'     => 0,
@@ -37,6 +39,7 @@ class EstnamesTableSeeder extends Seeder
             [
                 'id'             => 3,
                 'specie_id'     => 2,
+                'source_id'      => 3,
                 'user_id'       =>1,
                 'est_name'       => "Lõhi",
                 'accepted'     => 0,

@@ -17,7 +17,7 @@ class SourcesTableSeeder extends Seeder
         $items = [
             [
                 'id'    => 1,
-                'name' => 'Test',
+                'name' => 'Komisjon',
             ],
             [
                 'id'    => 2,

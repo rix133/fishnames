@@ -35,6 +35,10 @@ class Specie extends Model
 
       return $confirmedName;
     }
+
+    public function source(){
+      return $this->belongsTo(Source::class);
+    }
    
 
 }

@@ -20,6 +20,9 @@ class UpdateSpeciesRequest extends FormRequest
             'estnames.id'  => [
                 'integer',
             ],
+            'source_id' => [
+                'integer',
+            ]
         ];
     }
 

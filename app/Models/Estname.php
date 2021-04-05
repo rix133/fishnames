@@ -30,5 +30,9 @@ class Estname extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function source(){
+        return $this->belongsTo(Source::class);
+      }
+
     
 }

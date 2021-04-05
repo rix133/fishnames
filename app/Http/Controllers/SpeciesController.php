@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSpeciesRequest;
 use App\Http\Requests\UpdateSpeciesRequest;
 use App\Models\Estname;
 use App\Models\Specie;
+use App\Models\Source;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +22,14 @@ class SpeciesController extends Controller
         $showInprogress = $request->showInprogress;
         if($showInprogress){
             $species = Specie::with('estnames.notes.user')
+            ->with('source')
             ->where("confirmed_estname_id", null)
             ->get();   
         }
         else{
-            $species = Specie::with('estnames.notes.user')->get();
+            $species = Specie::with('estnames.notes.user')
+            ->with('source')
+            ->get();
         }
 
         foreach($species as $specie){
@@ -64,7 +68,7 @@ class SpeciesController extends Controller
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $species -> load('estnames.notes.user');
+        $species -> load(['estnames.notes.user', 'source']);
 
         return view('species.show', compact('species'));
     }
@@ -81,7 +85,9 @@ class SpeciesController extends Controller
         
         $species->load('estnames');
 
-        return view('species.edit', compact('species'));
+        $sources=Source::all();
+
+        return view('species.edit', compact('species','sources'));
     }
 
     public function update(UpdateSpeciesRequest $request, Specie $species)
