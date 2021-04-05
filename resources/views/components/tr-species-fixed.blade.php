@@ -11,6 +11,11 @@
         Staatus
     </th>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+        @if($species->new_id)
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    Nimi kehtetu
+                  </span>
+       @endif 
         @if($species->estname()->est_name)
             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
             Kinnitatud

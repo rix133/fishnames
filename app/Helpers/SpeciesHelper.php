@@ -3,6 +3,9 @@ namespace App\Helpers;
 
 use Illuminate\Database\Eloquent\Collection;
 
+use App\Models\Estname;
+use App\Models\Specie;
+
 class SpeciesHelper
 {
     public function __construct(Collection $species)
@@ -36,7 +39,12 @@ class SpeciesHelper
                 break;
             case 'inProgress':
                 $this->species = $this->species->filter(function($value, $key){
-                    return is_null($value->confirmed_estname_id);
+                    return is_null($value->confirmed_estname_id) & is_null($value->new_id);
+               });
+               break;
+            case 'old':
+                $this->species = $this->species->filter(function($value, $key){
+                    return !is_null($value->new_id);
                });
                 break;
         }  
@@ -54,4 +62,29 @@ class SpeciesHelper
     {
         return new SpeciesHelper($sp);
     }
+
+    public static function search($showInprogress, $searchString){
+        if(strlen($searchString) == 0){
+            $species = Specie::with('estnames.notes.user')
+            ->with('source')
+            ->get();   
+        }
+        else{
+            $est_id = Estname::where('est_name', 'LIKE', "%$searchString%")
+            ->select("specie_id")->get();
+        
+        $species = Specie::where('latin_name', 'LIKE', "%$searchString%")
+            ->orWhere('eng_name', 'LIKE', "%$searchString%")
+            ->orWhereIn('id', $est_id)
+            ->with(['estnames.notes.user', 'source'])
+            ->get();
+        }
+        if($showInprogress){
+            $species = SpeciesHelper::new($species)->filterSpecies("inProgress");
+        }
+
+        return $species;
+
+    }
 }
+

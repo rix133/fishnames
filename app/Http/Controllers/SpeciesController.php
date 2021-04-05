@@ -18,27 +18,12 @@ class SpeciesController extends Controller
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        
+        $searchString = $request->get('search'); 
         $showInprogress = $request->showInprogress;
-        if($showInprogress){
-            $species = Specie::with('estnames.notes.user')
-            ->with('source')
-            ->where("confirmed_estname_id", null)
-            ->get();   
-        }
-        else{
-            $species = Specie::with('estnames.notes.user')
-            ->with('source')
-            ->get();
-        }
-
-        foreach($species as $specie){
-            $specie->estname = $specie->estname()->est_name;
-        }
-        //$species = SpeciesHelper::new($species)->inProgress($showInprogress);
         
+        $species = SpeciesHelper::search($showInprogress, $searchString);
 
-        return view('species.index', compact('species', 'showInprogress'));
+        return view('species.index', compact('species', 'showInprogress', 'searchString'));
     }
 
     public function create()

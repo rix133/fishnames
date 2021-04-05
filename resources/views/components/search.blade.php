@@ -3,6 +3,7 @@
       <form action={{ route('search') }} method="post">
           @method('POST')
           @csrf
+          <input type="hidden" name="goto" value={{$goto}}/>
           <input class="border-2 border-gray-300 bg-white h-10 px-2 pr-2 rounded-lg text-sm focus:outline-none"
             type="search" name="query" placeholder="{{__('Search...')}}">
           <button type="submit">

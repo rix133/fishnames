@@ -68,6 +68,7 @@
                                             <option value="confirmed">Kõik kinnitatud</option>
                                             <option value="toEKI">Kinnitatud, EKIs puudu</option>
                                             <option value="inEKI">Kinnitatud, EKIs olemas</option>
+                                            <option value="old">Kehtetud</option>
                                         </select>
                                     </form>
                                 </td>

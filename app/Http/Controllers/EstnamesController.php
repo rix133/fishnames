@@ -157,12 +157,21 @@ class EstnamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function termeki(){
+    public function termeki(Request $request){
 
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
+        $searchString = $request->get('search'); 
+        $showInprogress = $request->showInprogress;
+        if(strlen($searchString) == 0){
+            $estnames = Estname::with('specie')->where('accepted', true)->get();
+        }
+        else{
+            $estnames = Estname::with('specie')
+            ->where('est_name', 'LIKE', "%$searchString%")
+            ->where('accepted', true)->get(); 
+        }
         
-        $estnames = Estname::with('specie')->where('accepted', true)->get();
         return view('estnames.termeki', compact('estnames'));
     }
 

@@ -10,24 +10,17 @@ class SearchController extends Controller {
 
     public function index(Request $request)
     {
-        $query = $request->get('query');
-
-        $est_id= Estname::where('est_name', 'LIKE', "%$query%")
-            ->select("specie_id")->get();
-        
-        $species = Specie::where('latin_name', 'LIKE', "%$query%")
-            ->orWhere('eng_name', 'LIKE', "%$query%")
-            ->orWhereIn('id', $est_id)
-            ->with('estnames.notes.user')
-            ->get();
-        
-            foreach($species as $specie){
-                $specie->estname = $specie->estname()->est_name;
-            }
-
-            $showInprogress = true;
+        $search = $request->get('query');
+        $showInprogress = false;
+        $goto = $request->goto;
+        if($goto == "species/"){
+            return redirect()->route('species.index', compact('showInprogress', 'search'));
+        }
+        if($goto == "termeki/"){
+            return redirect()->route('estnames.termeki', compact('showInprogress', 'search'));
+        }
             
-            return view('species.index', compact('species', 'showInprogress'));
-    }   
+        return redirect()->route('species.index', compact('showInprogress', 'search'));
+     }   
 
 }

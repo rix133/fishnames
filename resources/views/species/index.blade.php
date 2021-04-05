@@ -17,14 +17,17 @@
                 $lable = "Näita ainult töösolevaid"
                 @endphp
             @endif
-            <a href="{{ route('species.index',['showInprogress' => $show]) }}">
+            <a href="{{ route('species.index',['showInprogress' => $show, 'search' => $searchString]) }}">
                 <button class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 hover:bg-{{$color}}-500 hover:text-{{$color}}-900">
                 {{ $lable }}
                 </button> 
             </a>
         </span>
         <span class="float-right hidden md:block">
-            <x-search/>
+            @php
+                $goto = "species";
+            @endphp
+            <x-search :goto="$goto"/>
         </span>
     
         

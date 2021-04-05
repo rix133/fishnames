@@ -39,6 +39,15 @@ class Specie extends Model
     public function source(){
       return $this->belongsTo(Source::class);
     }
+
+    public function newName(){
+      $new_name = "";
+      if(!is_null($this->new_id)){
+        $sp = Specie::find($this->new_id);
+        $new_name = $sp->latin_name;
+      }
+      return $new_name;
+    }
    
 
 }

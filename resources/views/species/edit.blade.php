@@ -61,6 +61,25 @@
                                             @enderror
                                         </td>
                                     </tr>
+                                    <tr class="border-b">
+                                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Uus ladinakeelne nimi
+                                        </th>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+                                            <select name="new_id" id="new_id" 
+                                                class="form-select block rounded-md shadow-sm mt-1 block w-full" 
+                                                >
+                                                @foreach($sources as $id => $source)
+                                                    <option value="{{ $source->id }}" {{$source->id == $species->source_id ? 'selected' : ''}}>
+                                                        {{ $source->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('new_id')
+                                                <p class="text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </td>
+                                    </tr>
                                 </form>
                                 <x-tr-species-fixed :species="$species"/>
                                 <x-tr-estname :species="$species" :idSelected="0"/>
