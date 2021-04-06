@@ -87,7 +87,7 @@ class SpeciesHelper
         }
         
 
-        return $species->paginate(2);
+        return $species->paginate(20);
 
     }
 }

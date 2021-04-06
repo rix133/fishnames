@@ -28,17 +28,18 @@ class SpeciesController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $estnames = Estname::pluck('title', 'id');
+        $sources=Source::all();
+        $species= new Specie;
 
-        return view('species.create', compact('estnames'));
+        return view('species.create', compact('sources', 'species'));
     }
 
     public function store(StoreSpeciesRequest $request)
     {
         $species = Specie::create($request->validated());
-        $species->estnames()->sync($request->input('estnames', []));
+        //$species->estnames()->sync($request->input('estnames', []));
 
         return redirect()->route('species.index', ['showInprogress' => true]);
     }

@@ -18,61 +18,7 @@
                                 <form id="speciesupadate" method="post" action="{{ route('species.update', $species->id) }}">
                                     @csrf
                                     @method('put')
-                                    <tr class="border-b">                            
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            <label for="latin_name">Ladinakeelne nimi</label>
-                                        </th>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                        <input type="text" name="latin_name" id="latin_name" class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                                value="{{ old('latin_name', $species->latin_name) }}" />
-                                            @error('latin_name')
-                                                <p class="text-sm text-red-600">{{ $message }}</p>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Ingliskeelne nimi
-                                        </th>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                            <input type="text" name="eng_name" id="eng_name" class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                                value="{{ old('eng_name', $species->eng_name) }}" />
-                                            @error('eng_name')
-                                                <p class="text-sm text-red-600">{{ $message }}</p>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nime allikas
-                                        </th>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                            <select name="source_id" id="source_id" 
-                                                class="form-select block rounded-md shadow-sm mt-1 block w-full" 
-                                                >
-                                                @foreach($sources as $id => $source)
-                                                    <option value="{{ $source->id }}" {{$source->id == $species->source_id ? 'selected' : ''}}>
-                                                        {{ $source->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('source_id')
-                                                <p class="text-sm text-red-600">{{ $message }}</p>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Uus ladinakeelne nimi
-                                        </th>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                        <input type="text" name="new_id" id="new_id" class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                                value="{{ old('new_id', $species->newName()) }}" placeholder="Praegu kehtiv nimi..."/>
-                                            @error('new_id')
-                                                <p class="text-sm text-red-600">See peab olema mõni olemasolev ladinakeelne nimi!</p>
-                                            @enderror
-                                        </td>
-                                    </tr>
+                                    <x-tr-species-edit :species="$species" :sources="$sources"/>
                                 </form>
                                 <x-tr-species-fixed :species="$species"/>
                                 <x-tr-estname :species="$species" :idSelected="0"/>
@@ -110,9 +56,20 @@
                     </div>
                 </div>
             </div>
+            @can("species_access")
             <div class="block mt-8">
-                <a href="{{ route('species.index') }}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi nimekirja</a>
+                <form class="inline-block" action="{{ route('species.destroy', $species->id) }}" method="POST" onsubmit="return confirm('Oled kindel, et tahad kustutada?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="focus:outline-none text-white py-2 px-4 rounded-md bg-red-500 hover:bg-red-600 hover:shadow-lg inline-flex items-center">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Kustuta {{$species->latin_name}}
+                    </button>                                              
+                </form> 
             </div>
+           @endcan
         </div>
     </div>
 </x-app-layout>

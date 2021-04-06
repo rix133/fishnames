@@ -19,7 +19,12 @@
                   Eestikeelne nimi
                 </th>
                 <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tegevused
+                  Tegevused 
+                   @can('estname_access')
+                    <span class="float-right hidden md:block"> 
+                      <a href="{{ route('species.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Lisa liik</a>
+                    </span>
+                  @endcan
                 </th>
               </tr>
             </thead>

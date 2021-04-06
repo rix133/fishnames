@@ -12,14 +12,26 @@ class StoreSpeciesRequest extends FormRequest
         return [
             'eng_name'     => [
                 'string',
+                'nullable',
             ],
             'latin_name'    => [
                 'required',
                 'unique:species',
             ],
-            'estnames.id'  => [
+            'latin_family'    => [
+                'string',
+            ],
+            'describer'    => [
+                'string',
+            ],
+            'year_described'    => [
                 'integer',
             ],
+            'source_id'    => [
+                'integer',
+                'nullable',
+            ],
+            
         ];
     }
 

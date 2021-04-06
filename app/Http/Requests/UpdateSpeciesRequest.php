@@ -14,13 +14,11 @@ class UpdateSpeciesRequest extends FormRequest
         return [
             'eng_name'     => [
                 'string',
+                'nullable',
             ],
             'latin_name'    => [
                 'required',
                 'unique:species,latin_name,' . request()->route('species')->id,
-            ],
-            'estnames.id'  => [
-                'integer',
             ],
             'source_id' => [
                 'integer',
@@ -28,7 +26,19 @@ class UpdateSpeciesRequest extends FormRequest
             'new_id' =>[
                 'integer',
                 'nullable'
-            ]
+            ],
+            'latin_family'    => [
+                'string',
+                'nullable',
+            ],
+            'describer'    => [
+                'string',
+                'nullable',
+            ],
+            'year_described'    => [
+                'integer',
+                'nullable',
+            ],
         ];
     }
 
