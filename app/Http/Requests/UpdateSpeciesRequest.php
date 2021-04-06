@@ -22,6 +22,9 @@ class UpdateSpeciesRequest extends FormRequest
             ],
             'source_id' => [
                 'integer',
+            ],
+            'new_id' =>[
+                'integer',
             ]
         ];
     }

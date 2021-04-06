@@ -32,7 +32,8 @@
     
         
     </x-slot>
-    <x-table-species :species="$species"/>  
+    <x-table-species :species="$species"/>
+    {{$species->appends($_GET)->onEachSide(1)->links()}}  
 
   
 </x-app-layout>

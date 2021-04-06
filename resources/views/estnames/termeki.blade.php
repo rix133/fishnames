@@ -12,7 +12,8 @@
     </x-slot>
     
     <div class= "my-4">
-        <x-species-to-eki :estnames="$estnames"/>  
+        <x-species-to-eki :estnames="$estnames"/> 
+        {{$estnames->appends($_GET)->onEachSide(1)->links()}}  
     </div>
     
 

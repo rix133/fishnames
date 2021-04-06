@@ -163,14 +163,20 @@ class EstnamesController extends Controller
         
         $searchString = $request->get('search'); 
         $showInprogress = $request->showInprogress;
+
+        $estnames = Estname::where('accepted', true)->with('specie');
+
         if(strlen($searchString) == 0){
-            $estnames = Estname::with('specie')->where('accepted', true)->get();
         }
         else{
-            $estnames = Estname::with('specie')
+            $sp_ids = Specie::where('latin_name', 'LIKE', "%$searchString%")
+            ->orWhere('eng_name', 'LIKE', "%$searchString%")->select("id")->get();
+
+            $estnames = $estnames
             ->where('est_name', 'LIKE', "%$searchString%")
-            ->where('accepted', true)->get(); 
+            ->orWhereIn('specie_id', $sp_ids); 
         }
+        $estnames = $estnames->paginate(10);
         
         return view('estnames.termeki', compact('estnames'));
     }
