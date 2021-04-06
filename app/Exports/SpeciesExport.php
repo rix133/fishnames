@@ -33,8 +33,12 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
     {
         return [
          "ladinakeelne nimi",
-         "ingliskeelne nimi", 
          "eestikeelne nimi",
+         "sugukond",
+         "allikas",
+         "ingliskeelne nimi", 
+         "kirjeldaja nimi",
+         'kirjeldamise aasta',
          "termekis olemas",
          "viimane muutmine"
         ];
@@ -47,10 +51,21 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
      */
     public function map($sp): array
     {
+        if($sp->source){
+            $sourceName = $sp->source->name;
+        }
+        else{
+            $sourceName = "" ;
+        }
+        
         return [
             $sp->latin_name,
-            $sp->eng_name,
             $sp->estname()->est_name,
+            $sp->latin_family,
+            $sourceName,
+            $sp->eng_name,
+            $sp->describer,
+            $sp->year_described,
             //Date::dateTimeToExcel($sp->confirmed),
             $sp->inEKI,
             $sp->confirmed_at

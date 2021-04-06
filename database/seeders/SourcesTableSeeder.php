@@ -26,6 +26,9 @@ class SourcesTableSeeder extends Seeder
             [
                 'id'    => 3,
                 'name' => 'AV',
+
+                'id'    => 4,
+                'name' => 'Teadmata',
             ],
         ];
 
