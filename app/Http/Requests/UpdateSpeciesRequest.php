@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
+use App\Models\Specie;
+
 class UpdateSpeciesRequest extends FormRequest
 {
     public function rules()
@@ -25,12 +27,41 @@ class UpdateSpeciesRequest extends FormRequest
             ],
             'new_id' =>[
                 'integer',
+                'nullable'
             ]
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->formatSpeciesName();
+        
     }
 
     public function authorize()
     {
         return Gate::allows('species_access');
+    }
+
+    protected function formatSpeciesName(){
+        $new_name = $this->request->get("new_id");
+
+        if(strlen($new_name) < 2 | is_null($new_name)){
+            $spid = null;
+        } 
+        else{
+            $spid = Specie::where("latin_name", $new_name)
+            ->select('id')
+            ->first();
+            if(is_null($spid)){
+                $spid = "missing";
+            }
+            else{
+                $spid = $spid->id;
+            }
+        }
+        
+        $this->merge(['new_id' => $spid]);
+        //dd($this->request);
     }
 }

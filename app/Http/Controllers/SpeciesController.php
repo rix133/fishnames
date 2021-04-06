@@ -77,6 +77,7 @@ class SpeciesController extends Controller
 
     public function update(UpdateSpeciesRequest $request, Specie $species)
     {
+               
         $species->update($request->validated());
         #$species->estnames()->sync($request->input('estnames', []));
 

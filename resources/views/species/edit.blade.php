@@ -66,17 +66,10 @@
                                             Uus ladinakeelne nimi
                                         </th>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                            <select name="new_id" id="new_id" 
-                                                class="form-select block rounded-md shadow-sm mt-1 block w-full" 
-                                                >
-                                                @foreach($sources as $id => $source)
-                                                    <option value="{{ $source->id }}" {{$source->id == $species->source_id ? 'selected' : ''}}>
-                                                        {{ $source->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                        <input type="text" name="new_id" id="new_id" class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                                value="{{ old('new_id', $species->newName()) }}" placeholder="Praegu kehtiv nimi..."/>
                                             @error('new_id')
-                                                <p class="text-sm text-red-600">{{ $message }}</p>
+                                                <p class="text-sm text-red-600">See peab olema mõni olemasolev ladinakeelne nimi!</p>
                                             @enderror
                                         </td>
                                     </tr>
