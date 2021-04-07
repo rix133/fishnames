@@ -34,6 +34,10 @@ class StoreSourceRequest extends FormRequest
                 'required',
                 'string',
             ],
+            'user_id'    => [
+                'required',
+                'integer',
+            ],
         ];
     }
 }

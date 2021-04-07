@@ -12,12 +12,14 @@ class SpeciesTableSeeder extends Seeder
         $species = [
             [
                 'id'             => 1,
+                'user_id' => 1,
                 'latin_name'     => 'Limanda limanda',
                 'eng_name'       => 'Dab',
                 'confirmed_estname_id'     => 1,
             ],
             [
                 'id'             => 2,
+                'user_id' => 1,
                 'latin_name'     => 'Salmo salar',
                 'eng_name'       => 'Atlantic salmon',
                 'source_id'      => 2,
@@ -28,6 +30,7 @@ class SpeciesTableSeeder extends Seeder
             ],
             [
                 'id'             => 3,
+                'user_id' => 1,
                 'latin_name'     => 'Oncorhynchus mykiss',
                 'eng_name'       => 'Rainbow trout',
                 'source_id'      => 3,
@@ -37,6 +40,7 @@ class SpeciesTableSeeder extends Seeder
             ],
             [
                 'id'             => 4,
+                'user_id' => 1,
                 'latin_name'     => 'Oncorhynchus',
                 'is_genus'       => true,
                 'latin_family'   => "Salmonidae",
@@ -45,6 +49,7 @@ class SpeciesTableSeeder extends Seeder
             ],
             [
                 'id'             => 5,
+                'user_id' => 1,
                 'latin_name'     => 'Salmo mykiss',
                 'eng_name'       => 'Rainbow trout',
                 'new_id'         => 3,

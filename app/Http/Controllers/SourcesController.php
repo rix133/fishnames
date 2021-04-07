@@ -8,6 +8,7 @@ use App\Models\Estname;
 use App\Models\Specie;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Http\Requests\StoreSourceRequest;
@@ -36,7 +37,9 @@ class SourcesController extends Controller
     public function create()
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('sources.create');
+        $user_id = Auth::user()->id;
+
+        return view('sources.create', compact('user_id'));
     }
 
     /**

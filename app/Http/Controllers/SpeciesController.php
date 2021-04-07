@@ -38,7 +38,7 @@ class SpeciesController extends Controller
 
     public function store(StoreSpeciesRequest $request)
     {
-        $species = Specie::create($request->validated());
+         $species = Specie::create($request->validated());
         //$species->estnames()->sync($request->input('estnames', []));
 
         return redirect()->route('species.index', ['showInprogress' => true]);

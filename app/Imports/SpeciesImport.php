@@ -27,7 +27,10 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
             
             $src = Source::where("name", $row['source'])->first();
             if(is_null($src)){
-                $src = Source::create(['name' => $row['source']]);
+                $src = Source::create([
+                    'name' => $row['source'],
+                    'user_id' => $user->id
+                    ]);
             }
 
             $sp = Specie::create([
@@ -35,6 +38,7 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 'eng_name' => $row['eng_name'],
                 'latin_family' => $row['latin_family'],
                 'source_id' => $src->id,
+                'user_id' => $user->id,
                 'year_described' => $row['year_described'],
                 'describer' => $row['describer'],
 
@@ -69,6 +73,7 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                         'latin_name' => $row['old_latin_name'],
                         'eng_name' => $row['eng_name'],
                         'latin_family' => $row['latin_family'],
+                        'user_id' => $user->id,
                         'source_id' => $src->id, 
                         'new_id' => $sp->id,   
                     ]);

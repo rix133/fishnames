@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class StoreSpeciesRequest extends FormRequest
 {
@@ -31,12 +32,23 @@ class StoreSpeciesRequest extends FormRequest
                 'integer',
                 'nullable',
             ],
+            'user_id' =>[
+                'integer',
+                'required'
+            ]
             
         ];
     }
 
     public function authorize()
     {
-        return Gate::allows('species_access');
+        return Gate::allows('estname_access');
+    }
+
+    public function prepareForValidation()
+    {
+        $uid = Auth::user()->id;
+        $this->merge(['user_id' => $uid]);
+        
     }
 }

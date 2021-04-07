@@ -21,6 +21,7 @@ class CreateSpeciesTable extends Migration
             $table->string("eng_name")->nullable();
             $table->string("describer")->nullable();
             $table->integer("year_described")->nullable();
+            $table->foreignId('user_id');
             $table->foreignId('source_id')->nullable();
             $table->foreignId('confirmed_estname_id')->nullable();
             $table->foreignId('new_id')->nullable(); // if this is set it is an old latin name
