@@ -31,39 +31,23 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
         foreach ($rows as $row) 
         {
             if(is_null($row['latin_name'])){
-                dd($rows);
+                continue;
             }
-            $src = Source::where("name", $row['source'])->first();
-
-            if($row['updated_year']){
-                $date =  Carbon::createFromDate($row['updated_year'], $row['updated_month'], $row['updated_day']);
-            }
-
             
-            if(is_null($src)){
-                if(is_null( $row['source'])){
-                    $src = Source::find(4);
-                }
-                else{
-                    $src = Source::create([
-                        'name' => $row['source'],
-                        'user_id' => $user->id
-                        ]);
-                }
-                
-            }
+            $source_ids = $this->getSources($row, $user);
 
             $sp = Specie::create([
                 'latin_name' => $row['latin_name'],
                 'eng_name' => $row['eng_name'],
                 'latin_family' => $row['latin_family'],
-                'source_id' => $src->id,
                 'user_id' => $user->id,
                 'year_described' => $row['year_described'],
                 'describer' => $row['describer'],
             ]);
+            $sp->sources()->sync($source_ids);
+                
             if($row['est_name']){
-                $this->insertEstName($row, $user, $sp, $date);
+                $this->insertEstName($row, $user, $sp);
             }
 
             if($row['old_est_name']){
@@ -71,7 +55,7 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
             }
 
             if($row['old_latin_name']){
-                $this->insertOldLatinName($row, $user, $sp, $src);
+                $this->insertOldLatinName($row, $user, $sp);
             }
 
 
@@ -79,7 +63,11 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
         }
         
     }
-    protected function insertEstName($row, $user, $sp, $date){
+    protected function insertEstName($row, $user, $sp){
+        if($row['updated_year']){
+            $date =  Carbon::createFromDate($row['updated_year'], $row['updated_month'], $row['updated_day']);
+        }
+
         $estName = Estname::where("est_name", $row['est_name'])->first();
         if(is_null($estName)){
             $estName = Estname::create([
@@ -149,7 +137,7 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
         }
     }
 
-    protected function insertOldLatinName($row, $user, $sp, $src){
+    protected function insertOldLatinName($row, $user, $sp){
         $sp_old = Specie::where("latin_name", $row['old_latin_name'])->first();
         #do not overwrite if exists
         if(is_null($sp_old)){
@@ -158,7 +146,6 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 'eng_name' => $row['eng_name'],
                 'latin_family' => $row['latin_family'],
                 'user_id' => $user->id,
-                'source_id' => $src->id, 
                 'new_id' => $sp->id,   
             ]);
         }
@@ -166,6 +153,34 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
             $sp_old->new_id = $sp->id;
             $sp_old->save();
         }
+                
+    }
+
+    protected function getSources($row, $user){
+        $source_ids = [];
+      
+        if(is_null($row['source'])){
+            #this in unknown
+            array_push( $source_ids, 4);
+        }
+        else{
+            $sourceNames = explode(",", $row['source']);
+            
+
+            foreach ($sourceNames as $key => $srcName) {
+                $srcName = trim($srcName);
+                $src = Source::where("name", $srcName)->first();
+                if(is_null($src)){
+                    $src = Source::create([
+                        'name' => $srcName,
+                        'user_id' => $user->id
+                        ]); 
+                }
+                array_push( $source_ids, $src->id);
+            }     
+        }
+        
+        return $source_ids;   
                 
     }
 

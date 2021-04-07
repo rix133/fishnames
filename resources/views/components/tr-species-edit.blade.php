@@ -60,19 +60,17 @@
 </tr>
 <tr class="border-b">
     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Nime allikas
+        Nime allikad
     </th>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-        <select name="source_id" id="source_id" 
-            class="form-select block rounded-md shadow-sm mt-1 block w-full" 
-            >
+        <select name="sources[]" id="sources" class="form-multiselect block rounded-md shadow-sm mt-1 block w-full" multiple="multiple">
             @foreach($sources as $id => $source)
-                <option value="{{ $source->id }}" {{$source->id == $species->source_id ? 'selected' : ''}}>
+                <option value="{{ $source->id }}"{{ in_array($id, old('sources', $species->sources->pluck('id')->toArray())) ? ' selected' : '' }}>
                     {{ $source->name }}
                 </option>
             @endforeach
         </select>
-        @error('source_id')
+        @error('sources')
             <p class="text-sm text-red-600">{{ $message }}</p>
         @enderror
     </td>

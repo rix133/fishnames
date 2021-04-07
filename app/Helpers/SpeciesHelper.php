@@ -72,8 +72,7 @@ class SpeciesHelper
        }
 
         if(strlen($searchString) == 0){
-            $species = $species->with('estnames.notes.user')
-            ->with('source');
+            $species = $species->with('estnames.notes.user');
   
         }
         else{
@@ -83,7 +82,7 @@ class SpeciesHelper
         $species = $species->where('latin_name', 'LIKE', "%$searchString%")
             ->orWhere('eng_name', 'LIKE', "%$searchString%")
             ->orWhereIn('id', $est_id)
-            ->with(['estnames.notes.user', 'source']);
+            ->with(['estnames.notes.user']);
         }
         
 

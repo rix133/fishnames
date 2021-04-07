@@ -20,9 +20,6 @@ class UpdateSpeciesRequest extends FormRequest
                 'required',
                 'unique:species,latin_name,' . request()->route('species')->id,
             ],
-            'source_id' => [
-                'integer',
-            ],
             'new_id' =>[
                 'integer',
                 'nullable'

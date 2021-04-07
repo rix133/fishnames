@@ -28,10 +28,6 @@ class StoreSpeciesRequest extends FormRequest
             'year_described'    => [
                 'integer',
             ],
-            'source_id'    => [
-                'integer',
-                'nullable',
-            ],
             'user_id' =>[
                 'integer',
                 'required'

@@ -51,12 +51,8 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
      */
     public function map($sp): array
     {
-        if($sp->source){
-            $sourceName = $sp->source->name;
-        }
-        else{
-            $sourceName = "" ;
-        }
+        
+        $sourceName = $sp->sources->implode('name', ",");
         
         return [
             $sp->latin_name,

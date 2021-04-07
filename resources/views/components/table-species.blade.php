@@ -71,9 +71,9 @@
                 <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                     @if($liik->estname()->est_name) 
                         {{$liik->estname()->est_name}}
-                        @if($liik->source)
+                        @if($liik->sources->count()>0)
                           <div class="text-sm text-gray-500">
-                            Allikas: {{$liik->source->name}}
+                            Allikad: {{$liik->sources->implode('name', ", ")}}
                           </div>
                        @endif 
                     @else

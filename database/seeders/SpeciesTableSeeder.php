@@ -22,7 +22,6 @@ class SpeciesTableSeeder extends Seeder
                 'user_id' => 1,
                 'latin_name'     => 'Salmo salar',
                 'eng_name'       => 'Atlantic salmon',
-                'source_id'      => 2,
                 'latin_family'   => "Salmonidae",
                 'describer'       => "Linnaeus",
                 "year_described" =>  1758,
@@ -33,7 +32,6 @@ class SpeciesTableSeeder extends Seeder
                 'user_id' => 1,
                 'latin_name'     => 'Oncorhynchus mykiss',
                 'eng_name'       => 'Rainbow trout',
-                'source_id'      => 3,
                 'latin_family'   => "Salmonidae",
                 "year_described" =>  1792,
                 'photo_path'     =>  'https://static.inaturalist.org/photos/71244986/small.jpg?1588643876'
@@ -53,7 +51,6 @@ class SpeciesTableSeeder extends Seeder
                 'latin_name'     => 'Salmo mykiss',
                 'eng_name'       => 'Rainbow trout',
                 'new_id'         => 3,
-                'source_id'      => 2,
                 'latin_family'   => "Salmonidae",
                 "year_described" =>  1792,
                 'photo_path'     =>  'https://static.inaturalist.org/photos/71244986/small.jpg?1588643876'

@@ -138,7 +138,7 @@ class EstnamesController extends Controller
             $estname->save();
             $species = Specie::find($estname->specie_id);
             $species->confirmed_estname_id = $estname->id;
-            $species->source_id = 1; #make the name source Terminoloogiakomisjon
+            //$species->source_id = 1; #make the name source Terminoloogiakomisjon
             $species->save();
             return redirect()->route('species.index', ['showInprogress' => true]);
         }

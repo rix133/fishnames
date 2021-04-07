@@ -37,9 +37,9 @@ class SpeciesController extends Controller
     }
 
     public function store(StoreSpeciesRequest $request)
-    {
-         $species = Specie::create($request->validated());
-        //$species->estnames()->sync($request->input('estnames', []));
+    { 
+        $species = Specie::create($request->validated());
+        $species->sources()->sync($request->input('sources', []));
 
         return redirect()->route('species.index', ['showInprogress' => true]);
     }
@@ -54,7 +54,7 @@ class SpeciesController extends Controller
     {
         abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $species -> load(['estnames.notes.user', 'source']);
+        $species -> load(['estnames.notes.user']);
 
         return view('species.show', compact('species'));
     }
@@ -78,9 +78,9 @@ class SpeciesController extends Controller
 
     public function update(UpdateSpeciesRequest $request, Specie $species)
     {
-               
+            
         $species->update($request->validated());
-        #$species->estnames()->sync($request->input('estnames', []));
+        $species->sources()->sync($request->input('sources', []));
 
         return redirect()->route('species.index', ['showInprogress' => true]);
     }

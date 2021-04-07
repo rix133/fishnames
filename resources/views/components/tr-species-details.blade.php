@@ -30,13 +30,13 @@
         {{ $species->eng_name }}
     </td>
 </tr>
-@if(!is_null($species->source))
+@if($species->sources->count()>0)
 <tr class="border-b">
     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Nimede allikas
+        Nimede allikad
     </th>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-        {{ $species->source->name }}
+        {{ $species->sources->implode('name',", ") }}
     </td>
 </tr>
 @endif

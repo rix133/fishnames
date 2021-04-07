@@ -36,8 +36,8 @@ class Specie extends Model
       return $confirmedName;
     }
 
-    public function source(){
-      return $this->belongsTo(Source::class);
+    public function sources(){
+      return $this->belongsToMany(Source::class);
     }
 
     public function newName(){
