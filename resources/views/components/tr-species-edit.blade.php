@@ -65,7 +65,7 @@
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
         <select name="sources[]" id="sources" class="form-multiselect block rounded-md shadow-sm mt-1 block w-full" multiple="multiple">
             @foreach($sources as $id => $source)
-                <option value="{{ $source->id }}"{{ in_array($id, old('sources', $species->sources->pluck('id')->toArray())) ? ' selected' : '' }}>
+                <option value="{{ $source->id }}"{{ in_array($source->id, old('sources', $species->sources->pluck('id')->toArray())) ? ' selected' : '' }}>
                     {{ $source->name }}
                 </option>
             @endforeach
