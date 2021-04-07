@@ -50,4 +50,3 @@
     </td>
 </tr>
 @endif
-<x-tr-species-fixed :species="$species"/>

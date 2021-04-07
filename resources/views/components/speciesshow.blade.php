@@ -8,6 +8,7 @@
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200 w-full">
                         <x-tr-species-details :species="$species"/>
+                        <x-tr-species-fixed :species="$species"/>
                         <x-tr-estname :species="$species" :idSelected="0"/>
                     </table>
                 </div>

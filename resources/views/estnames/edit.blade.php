@@ -20,6 +20,7 @@
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200 w-full">
                             <x-tr-species-details :species="$estname->specie"></x-tr-species-details>
+                            <x-tr-species-fixed :species="$estname->specie"/>
                             <x-tr-estname :species="$estname->specie" :idSelected="$estname->id"/>
                         </table>
                     </div>

@@ -41,6 +41,11 @@
                                 export
                             </x-jet-nav-link>
                         </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-jet-nav-link href="{{ route('notes.index') }}" :active="request()->routeIs('notes.*')">
+                                Kommentaarid
+                            </x-jet-nav-link>
+                        </div>
                     @endcan
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-jet-nav-link href="{{ route('sources.index') }}" :active="request()->routeIs('sources.*')">

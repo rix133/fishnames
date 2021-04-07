@@ -19,6 +19,10 @@ class SearchController extends Controller {
         if($goto == "termeki/"){
             return redirect()->route('estnames.termeki', compact('showInprogress', 'search'));
         }
+
+        if($goto == "notes/"){
+            return redirect()->route('notes.index', compact('search'));
+        }
             
         return redirect()->route('species.index', compact('showInprogress', 'search'));
      }   
