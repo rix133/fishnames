@@ -61,12 +61,13 @@
                     <td class="px-4 py-4 whitespace-nowrap">
                         <label class="flex justify-start items-start">
                         <div class="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
-                            <input type="checkbox" name="in_termeki[]" value={{$estname->id}} class="opacity-0 absolute" {{  ($estname->in_termeki == 1 ? ' checked' : '') }}>
+                            <input type="checkbox" name="in_termeki[]" value="{{$estname->id}}" class="opacity-0 absolute" {{  ($estname->in_termeki == 1 ? ' checked' : '') }}/>
+                            
                             <svg class="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
                         </div>
                         <div class="select-none">Termekis olemas</div>
                         </label>
-                    
+                        <input type="hidden" name="items[]" value="{{$estname->id}}" />
                     </td>
                     </tr>
                 @endforeach
@@ -74,7 +75,7 @@
         </table> 
         <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">
             <button class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
-                salvesta
+                Salvesta
             </button>
         </div>
     </form> 

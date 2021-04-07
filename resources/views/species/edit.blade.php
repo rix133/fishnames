@@ -9,6 +9,9 @@
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="block mb-8">
                 <a href="{{ route('species.index', ['showInprogress' => true])}}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi nimekirja</a>
+                @error('confirmErr')
+                    <div class="my-4 text-red-500 font-bold">{{$message}}</div>
+                @enderror
             </div>
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -31,7 +34,7 @@
                                         @php $color="red" @endphp
                                         @if($species->estname()->in_termeki)
                                             <button disabled class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 bg-{{$color}}-500 text-{{$color}}-900">
-                                            EKI andmebaasi laetud nimede muutmise võimalust ei ole loodud
+                                            Aksepteeritud nime muutmiseks vabasta see enne Termeki tabelis. 
                                             </button> 
                                         @else
                                             <a href="{{ route('species.estnames.reset', $species->id) }}">
@@ -58,6 +61,9 @@
             </div>
             @can("species_access")
             <div class="block mt-8">
+            @error('deleteMsg')
+                <div class="my-4 text-red-500 font-bold">{{$message}}</div>
+             @enderror
                 <form class="inline-block" action="{{ route('species.destroy', $species->id) }}" method="POST" onsubmit="return confirm('Oled kindel, et tahad kustutada?');">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -69,6 +75,7 @@
                     </button>                                              
                 </form> 
             </div>
+            
            @endcan
         </div>
     </div>

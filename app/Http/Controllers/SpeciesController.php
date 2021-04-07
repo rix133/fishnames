@@ -88,10 +88,14 @@ class SpeciesController extends Controller
     public function destroy(Specie $species)
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $species->delete();
-
-        return redirect()->route('species.index');
+        if(is_null($species->confirmed_estname_id)){
+            $species->delete();
+            return redirect()->route('species.index');
+        }
+        else{
+            return redirect()->back()->withErrors(['deleteMsg'=> 'Ei saa kustutada liiki, millel on kinnitatud eestikeelne nimi!']);
+        }
+    
     }
 
     public function reset_estnames($id)

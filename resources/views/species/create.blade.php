@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="block mt-8">
-                <a href="{{ route('species.index') }}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi nimekirja</a>
+                <a href="{{ route('species.index', ['showInprogress' => true]) }}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi nimekirja</a>
             </div>
         </div>
     </div>
