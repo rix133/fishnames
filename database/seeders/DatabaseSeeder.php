@@ -19,10 +19,15 @@ class DatabaseSeeder extends Seeder
             PermissionRoleTableSeeder::class,
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
-            EstnamesTableSeeder::class,
-            SpeciesTableSeeder::class,
-            NotesTableSeeder::class,
             SourcesTableSeeder::class,
         ]);
+        $seedTestData = false;
+        if($seedTestData){
+            $this->call([
+                EstnamesTableSeeder::class,
+                SpeciesTableSeeder::class,
+                NotesTableSeeder::class,
+            ]);
+        }
     }
 }

@@ -8,7 +8,7 @@
     <div>
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="block mb-8">
-                <a href="{{ route('species.index', ['showInprogress' => true])}}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi nimekirja</a>
+                <a href="{{ url()->previous()}}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi</a>
                 @error('confirmErr')
                     <div class="my-4 text-red-500 font-bold">{{$message}}</div>
                 @enderror
