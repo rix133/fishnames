@@ -19,8 +19,8 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'id'             => 2,
-                'name'           => 'Richard (Juht)',
-                'email'          => 'richard.meitern@ut.ee',
+                'name'           => 'Komisoni esimees',
+                'email'          => 'juht@ut.ee',
                 'password'       => bcrypt('asdf1234'),
                 'remember_token' => null,
             ],

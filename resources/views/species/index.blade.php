@@ -32,8 +32,14 @@
     
         
     </x-slot>
-    <x-table-species :species="$species"/>
+    <div class = "m-2">
     {{$species->appends($_GET)->onEachSide(1)->links()}}  
+    </div>
+    <x-table-species :species="$species"/>
+    <div class = "m-2">
+    {{$species->appends($_GET)->onEachSide(1)->links()}}  
+    </div>
+    
 
   
 </x-app-layout>
