@@ -63,8 +63,10 @@ class User extends Authenticatable
     {
         parent::__construct($attributes);
         self::created(function (User $user) {
-            if (!$user->roles()->get()->contains(3)) {
-                $user->roles()->attach(3);
+            $nr = 3;
+            $role = Role::find($nr);
+            if (!$user->roles()->get()->contains($nr) & $role) {
+                $user->roles()->attach($nr);
             }
         });
     }
