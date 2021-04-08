@@ -65,7 +65,7 @@ class User extends Authenticatable
         self::created(function (User $user) {
             $nr = 3;
             $role = Role::find($nr);
-            if (!$user->roles()->get()->contains($nr) & $role) {
+            if (!$user->roles()->get()->contains($nr) & !is_null($role)) {
                 $user->roles()->attach($nr);
             }
         });
