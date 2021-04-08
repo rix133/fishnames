@@ -1,17 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Liigitabeli 
-            @can('species_access')
-            import /
-            @endcan
-            export excelisse
-        </h2>
+        <div class="max-w-6xl mx-auto">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Liikide lisamine 
+            </h2>
+        </div>
     </x-slot>
     <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="block mb-8">
-            <a href="{{ route('species.index') }}" class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Tagasi liikide nimekirja</a>
+            @can('estname_access')
+            <a href="{{ route('species.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Lisa uus ladinakeelne nimi</a>
+             @endcan
         </div>
+        <h2 class="my-4 font-semibold text-xl text-gray-800 leading-tight">
+            Exceli
+            @can('species_access')
+            import ja 
+            @endcan
+            export
+        </h2>
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

@@ -34,11 +34,7 @@
                     @can('estname_access')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-jet-nav-link href="{{ route('excel.import-export') }}" :active="request()->routeIs('excel.*')">
-                                Liigitabeli 
-                                @can('species_access')
-                                import/
-                                @endcan
-                                export
+                                Liikide import/export
                             </x-jet-nav-link>
                         </div>
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

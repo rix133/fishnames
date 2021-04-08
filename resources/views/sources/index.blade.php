@@ -1,8 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
+        <div class="max-w-6xl mx-auto">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Allikad
         </h2>
+        </div>
     </x-slot>
      <div>
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
