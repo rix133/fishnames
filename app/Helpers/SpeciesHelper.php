@@ -64,7 +64,7 @@ class SpeciesHelper
     }
 
     public static function search($showInprogress, $searchString){
-        $species = Specie::query();
+        $species = Specie::query()->orderBy("updated_at", "desc");
 
         if($showInprogress){
             $species = $species->whereNull('confirmed_estname_id')

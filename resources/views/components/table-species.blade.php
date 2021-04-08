@@ -77,6 +77,7 @@
                           </div>
                        @endif 
                     @else
+                    @can('estname_access')
                     <table class="divide-y divide-gray-200 float-right">
                     @foreach ($liik->estnames as $name)
                     <tr>
@@ -99,12 +100,14 @@
                     </tr>
                     @endforeach
                     </table>
+                    @endcan
                 @endif 
                 </td>
                 <td class="px-4 py-4 whitespace-nowrap">
                   @if(!is_null($liik->estname()->est_name) | !is_null($liik->new_id)) 
                   <span></span> 
                   @else
+                  @can('estname_access')
                   <a href="{{ route('estnames.create', ['spid' => $liik->id]) }}">
                     <button type="button" class="focus:outline-none text-white text-xs py-2 px-4 rounded-md bg-gray-500 hover:bg-gray-600 hover:shadow-lg inline-flex items-center">
                       <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,6 +116,7 @@
                       Paku uus nimi
                     </button>
                   </a>
+                  @endcan
                   @endif
                   @if($liik->new_id)
                   <a href="{{ route('species.show',  $liik->new_id) }}">

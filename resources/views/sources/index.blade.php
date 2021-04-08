@@ -6,12 +6,14 @@
     </x-slot>
      <div>
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
+            @can("species_access")
             <div class="block mb-8">
                 <a href="{{ route('sources.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Lisa allikas</a>
                 @if($errors->any())
                 <span class="mx-4 text-red-500 font-bold">{{$errors->first()}}</span>
                  @endif
             </div>
+            @endcan
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

@@ -9,7 +9,9 @@
                     <table class="min-w-full divide-y divide-gray-200 w-full">
                         <x-tr-species-details :species="$species"/>
                         <x-tr-species-fixed :species="$species"/>
+                        @can("estname_access")
                         <x-tr-estname :species="$species" :idSelected="0"/>
+                        @endcan
                     </table>
                 </div>
             </div>

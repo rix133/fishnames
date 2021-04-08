@@ -16,7 +16,7 @@ class SpeciesController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $searchString = $request->get('search'); 
         $showInprogress = $request->showInprogress;
@@ -52,7 +52,7 @@ class SpeciesController extends Controller
      */
     public function show(Specie $species)
     {
-        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         $species -> load(['estnames.notes.user']);
 
