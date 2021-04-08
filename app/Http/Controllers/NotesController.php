@@ -94,6 +94,10 @@ class NotesController extends Controller
         if(Auth::user()->id == $note->user_id){
             $note->delete();
         }
+        // also administrators can
+        if(!Gate::denies('user_access')){
+            $note->delete();
+        }
 
         return redirect()->back();
     }
