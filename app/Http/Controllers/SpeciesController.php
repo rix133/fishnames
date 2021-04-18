@@ -88,7 +88,7 @@ class SpeciesController extends Controller
     public function destroy(Specie $species)
     {
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        if(is_null($species->confirmed_estname_id)){
+        if(count($species->confirmedNames) == 0){
             $species->delete();
             return redirect()->route('species.index');
         }
@@ -103,11 +103,7 @@ class SpeciesController extends Controller
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         Estname::where('specie_id', $id)
         ->where('accepted', true)
-        ->update(['accepted' => false]);
-
-        $sp = Specie::find($id);
-        $sp->confirmed_estname_id = null;
-        $sp->save();     
+        ->update(['accepted' => false]);    
 
         return redirect()->route('species.index', ['showInprogress' => true]);
     } 

@@ -48,7 +48,7 @@
                                 Allikad
                             </x-jet-nav-link>
                         </div>
-                    @can('species_access')
+                    @can('estname_access')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-jet-nav-link href="{{ route('estnames.termeki') }}" :active="request()->routeIs('estnames.termeki')">
                                 Termeki
@@ -165,6 +165,13 @@
                     {{ __('Allikad') }}
                 </x-jet-responsive-nav-link>
             </div>
+            @can('estname_access')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-jet-responsive-nav-link href="{{ route('estnames.termeki')}}" :active="request()->routeIs('estnames.termeki')">
+                    {{ __('Termeki') }}
+                </x-jet-responsive-nav-link>
+            </div>
+            @endcan
 
             <!-- Responsive Settings Options -->
             <div class="pt-4 pb-1 border-t border-gray-200">

@@ -128,21 +128,14 @@ class EstnamesController extends Controller
 
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $estname = Estname::find($id);
+        $estname->accepted = true;
+        $estname->save();
         $species = Specie::find($estname->specie_id);
-        $accepted_estname = null;
-        if($species->confirmed_estname_id){
-            $accepted_estname = Estname::find($species->confirmed_estname_id);
-        }
-        if(is_null($accepted_estname)){
-            $estname->accepted = true;
-            $estname->save();
-            $species = Specie::find($estname->specie_id);
-            $species->confirmed_estname_id = $estname->id;
-            //$species->source_id = 1; #make the name source Terminoloogiakomisjon
-            $species->save();
-            return redirect()->route('species.index', ['showInprogress' => true]);
-        }
-        return redirect()->route("species.edit", $species->id)->withErrors(['confirmErr'=>"Ei saa kinnitada ühele liigile mitut nime! Tühista enne eelmine kinnitus!"]);
+        $species->confirmed_estname_id = $estname->id;
+        //$species->source_id = 1; #make the name source Terminoloogiakomisjon
+        $species->save();
+        return redirect()->route('species.index', ['showInprogress' => true]);
+        //return redirect()->route("species.edit", $species->id)->withErrors(['confirmErr'=>"Ei saa kinnitada ühele liigile mitut nime! Tühista enne eelmine kinnitus!"]);
     }
 
     /**
@@ -153,7 +146,7 @@ class EstnamesController extends Controller
      */
     public function finish($id){
 
-        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $estname = Estname::find($id);
         $estname->in_termeki = true;
         $estname->save();
@@ -167,7 +160,7 @@ class EstnamesController extends Controller
      */
     public function termeki(Request $request){
 
-        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         $searchString = $request->get('search'); 
         $showInprogress = $request->showInprogress;
@@ -196,7 +189,7 @@ class EstnamesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function savetermeki(Request $request){
-        abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('estname_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $ids = $request->input('in_termeki');
         $items = $request->input('items');
         if(is_null($ids)) {$ids = [];}

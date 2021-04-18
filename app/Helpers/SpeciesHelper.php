@@ -11,9 +11,8 @@ class SpeciesHelper
     public function __construct(Collection $species)
     {
         foreach($species as $specie){
-            $et = $specie->estname();
-            $specie->confirmed_at = $et->updated_at;
-            $specie->inEKI = $et->in_termeki;
+            $specie->confirmed_at = $specie->updated_at;
+            $specie->inEKI = $specie->confirmedNames->implode('est_name', ",");
         }
         $this->species = $species;
     }

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             SourcesTableSeeder::class,
         ]);
-        $seedTestData = false;
+        $seedTestData = true;
         if($seedTestData){
             $this->call([
                 EstnamesTableSeeder::class,

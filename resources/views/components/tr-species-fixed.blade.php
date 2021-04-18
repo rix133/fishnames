@@ -16,7 +16,7 @@
                     Nimi kehtetu
                   </span>
        @endif 
-        @if($species->estname()->est_name)
+        @if(count($species->confirmedNames)>0)
             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
             Kinnitatud
             </span>
@@ -25,10 +25,12 @@
                 Töös
             </span>
         @endif
-        @if($species->estname()->in_termeki)
-            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                EKI andmebaasi laetud
-            </span>
-        @endif
+        @foreach($species->confirmedNames as $name)
+            @if($name->in_termeki)
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                {{$name->est_name}} EKI andmebaasi laetud
+                </span>
+            @endif
+        @endforeach
     </td>
 </tr>

@@ -25,21 +25,21 @@
                                 </form>
                                 <x-tr-species-fixed :species="$species"/>
                                 <x-tr-estname :species="$species" :idSelected="0"/>
-                                @if($species->estname()->est_name)
+                                @if(count($species->confirmedNames)>0)
                                 <tr class="border-b">
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Toimingud
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
                                         @php $color="red" @endphp
-                                        @if($species->estname()->in_termeki)
+                                        @if($species->confirmedNames->sum('in_termeki')>0)
                                             <button disabled class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 bg-{{$color}}-500 text-{{$color}}-900">
-                                            Aksepteeritud nime muutmiseks vabasta see enne Termeki tabelis. 
+                                            Aksepteeritud nimede muutmiseks vabasta need enne Termeki tabelis. 
                                             </button> 
                                         @else
                                             <a href="{{ route('species.estnames.reset', $species->id) }}">
                                                 <button class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 hover:bg-{{$color}}-500 hover:text-{{$color}}-900">
-                                                Tühista kinnitus nimelt: {{$species->estname()->est_name}}
+                                                Tühista kinnitused Eestikeelsetelt nimedelt
                                                 </button> 
                                             </a> 
                                         @endif

@@ -22,18 +22,9 @@ class Specie extends Model
     }
 
 
-    public function estname()
-    {
-        
-        $eid = $this->confirmed_estname_id;
-        if(!is_null($eid)){
-         $confirmedName = Estname::find($eid);
-        }
-        else{
-          $confirmedName  = new Estname();
-        }
-
-      return $confirmedName;
+    public function confirmedNames()
+    { 
+        return $this->hasMany(Estname::class)->where("accepted", true);
     }
 
     public function sources(){

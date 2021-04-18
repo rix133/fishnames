@@ -53,7 +53,15 @@
                     Kehtetu
                   </span>
                 @endif 
-                @if($liik->estname()->est_name)
+                @if($liik->confirmedNames->sum('in_termeki')>0)
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  @if(count($liik->confirmedNames) == $liik->confirmedNames->sum('in_termeki'))
+                    EKIs
+                  @else
+                    Kinnitatud ({{count($liik->confirmedNames)}}), EKIs ({{$liik->confirmedNames->sum('in_termeki')}})
+                  @endif
+                  </span>
+                @elseif(count($liik->confirmedNames)>0)
                   <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                     Kinnitatud
                   </span>
@@ -64,8 +72,8 @@
                 @endif
                 </td>
                 <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                    @if($liik->estname()->est_name) 
-                        {{$liik->estname()->est_name}}
+                  @if(count($liik->confirmedNames)>0)
+                    {{$liik->confirmedNames->implode("est_name", " ehk ")}} 
                         @if($liik->sources->count()>0)
                           <div class="text-sm text-gray-500">
                             Allikad: {{$liik->sources->implode('name', ", ")}}
@@ -99,7 +107,7 @@
                 @endif 
                 </td>
                 <td class="px-4 py-4 whitespace-nowrap">
-                  @if(!is_null($liik->estname()->est_name) | !is_null($liik->new_id)) 
+                  @if(count($liik->confirmedNames)!=0 | !is_null($liik->new_id)) 
                   <span></span> 
                   @else
                   @can('estname_access')

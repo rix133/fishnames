@@ -33,7 +33,7 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
     {
         return [
          "ladinakeelne nimi",
-         "eestikeelne nimi",
+         "eestikeelsed nimed",
          "sugukond",
          "allikas",
          "ingliskeelne nimi", 
@@ -53,10 +53,11 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
     {
         
         $sourceName = $sp->sources->implode('name', ",");
+        $confirmed_est_names = $sp->confirmedNames->implode('est_name', ",");
         
         return [
             $sp->latin_name,
-            $sp->estname()->est_name,
+            $confirmed_est_names,
             $sp->latin_family,
             $sourceName,
             $sp->eng_name,
