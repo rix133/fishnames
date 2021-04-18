@@ -177,9 +177,14 @@ class EstnamesController extends Controller
             ->where('est_name', 'LIKE', "%$searchString%")
             ->orWhereIn('specie_id', $sp_ids); 
         }
-        $estnames = $estnames->paginate(10);
+
+        if($showInprogress){
+            $estnames = $estnames -> where("in_termeki", false);
+        }
         
-        return view('estnames.termeki', compact('estnames'));
+        $estnames = $estnames->where('accepted', true)->paginate(10);
+        
+        return view('estnames.termeki', compact('estnames', 'showInprogress', 'searchString'));
     }
 
       /**

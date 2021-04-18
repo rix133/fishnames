@@ -2,12 +2,32 @@
     <x-slot name="header">
         <span class="font-semibold text-xl text-gray-800 leading-tight">
             Termeki salvestus
-            </span>
+        </span>
+        <span class="mx-2">
+        @if($showInprogress)
+            @php 
+            $color = "gray";
+            $show = false;
+            $lable = "Näita kõiki"
+            @endphp
+        @else
+            @php 
+            $color = "yellow";
+            $show = true;
+            $lable = "Näita ainult EKIs puuduvaid"
+            @endphp
+        @endif
+        <a href="{{ route('estnames.termeki',['showInprogress' => $show, 'search' => $searchString]) }}">
+            <button class="px-2 py-1 focus:outline-none inline-flex text-ms leading-5 font-semibold rounded-full bg-{{$color}}-100 text-{{$color}}-800 hover:bg-{{$color}}-500 hover:text-{{$color}}-900">
+            {{ $lable }}
+            </button> 
+            </a>
+        </span>
         <span class="float-right hidden md:block">
             @php
                 $goto = "termeki";
             @endphp
-            <x-search :goto="$goto"/>
+            <x-search :goto="$goto" :searchString="$searchString"/>
         </span>
     </x-slot>
     <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

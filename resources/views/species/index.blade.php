@@ -27,7 +27,7 @@
             @php
                 $goto = "species";
             @endphp
-            <x-search :goto="$goto"/>
+            <x-search :goto="$goto" :searchString="$searchString"/>
         </span>
     
         

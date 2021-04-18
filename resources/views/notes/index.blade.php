@@ -7,7 +7,7 @@
             @php
                 $goto = "notes";
             @endphp
-            <x-search :goto="$goto"/>
+            <x-search :goto="$goto" :searchString="$searchString"/>
         </span>
     </x-slot>
 
