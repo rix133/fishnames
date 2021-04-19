@@ -40,7 +40,7 @@ class NotesController extends Controller
         $notes = $notes->paginate(10);
 
         $user_id = Auth::user()->id;
-        return view('notes.index', compact('notes','user_id'));
+        return view('notes.index', compact('notes','user_id', 'searchString', 'showInprogress'));
     }
 
     public function create()
