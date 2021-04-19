@@ -13,7 +13,7 @@
                     @method('put')
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="name" class="block font-medium text-sm text-gray-700">Name</label>
+                            <label for="name" class="block font-medium text-sm text-gray-700">Nimi</label>
                             <input type="text" name="name" id="name" class="form-input rounded-md shadow-sm mt-1 block w-full"
                                    value="{{ old('name', $source->name) }}" />
                             @error('name')
@@ -22,7 +22,7 @@
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="description" class="block font-medium text-sm text-gray-700">description</label>
+                            <label for="description" class="block font-medium text-sm text-gray-700">Selgitus/viide</label>
                             <input type="text" name="description" id="description" class="form-input rounded-md shadow-sm mt-1 block w-full"
                                    value="{{ old('description', $source->description) }}" />
                             @error('description')
