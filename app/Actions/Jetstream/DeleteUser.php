@@ -16,6 +16,8 @@ class DeleteUser implements DeletesUsers
     {
         $user->deleteProfilePhoto();
         $user->tokens->each->delete();
+        #rename the email (this is the only feature that should be actually deleted)
+        $user->update(["email" => $user->id."@uime.tk"]);
         $user->delete();
     }
 }

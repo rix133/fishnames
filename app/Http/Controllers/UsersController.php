@@ -67,7 +67,8 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        #rename the email (this is the only feature that should be actually deleted)
+        $user->update(["email" => $user->id."@uime.tk"]);
         $user->delete();
 
         return redirect()->route('users.index');
