@@ -12,7 +12,10 @@ class SpeciesHelper
     {
         foreach($species as $specie){
             $specie->confirmed_at = $specie->updated_at;
-            $specie->inEKI = $specie->confirmedNames->implode('est_name', ",");
+            $specie->countEKI = $specie->confirmedNames->sum("in_termeki");
+            $specie->inEKI = $specie->confirmedNames
+            ->where("in_termeki",true)
+            ->implode('est_name', ",");
         }
         $this->species = $species;
     }
@@ -27,13 +30,13 @@ class SpeciesHelper
                });
                 break;
             case 'inEKI':
-                $this->species = $this->species ->filter(function($value, $key){
-                    return $value->inEKI;
+                $this->species = $this->species->filter(function($value, $key){
+                    return $value->countEKI > 0;
                });
                 break;
             case 'toEKI':
                 $this->species = $this->species ->filter(function($value, $key){
-                        return !$value->inEKI & !is_null($value->confirmed_estname_id);
+                        return ($value->countEKI == 0) & !is_null($value->confirmed_estname_id);
                 });
                 break;
             case 'inProgress':

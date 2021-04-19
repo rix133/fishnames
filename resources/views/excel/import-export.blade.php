@@ -77,6 +77,7 @@
                                             <option value="inEKI">Kinnitatud, EKIs olemas</option>
                                             <option value="old">Kehtetud</option>
                                         </select>
+                                        <input type="number" name="year" id="year_described" class="py-1 mx-6" placeholder="muutmise aasta"/>
                                     </form>
                                 </td>
                             </tr>

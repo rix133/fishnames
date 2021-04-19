@@ -21,10 +21,20 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
     */
     public function collection()
     {
-        
-        $species = Specie::all();
+        $year = $this->request->get('year');
+        if($year){
+            $from = date($year.'-01-01');
+            $to = date($year.'-12-31');
+            $species = Specie::whereBetween('updated_at', [$from, $to])->get();
+        }
+        else{
+            $species = Specie::all();
+        }
+
         $filter = $this->request->get('download-filter');
+        
         $species = SpeciesHelper::new($species)->filterSpecies($filter);
+
         
         return $species;
     }
@@ -39,7 +49,7 @@ class SpeciesExport implements FromCollection,WithHeadings,WithMapping
          "ingliskeelne nimi", 
          "kirjeldaja nimi",
          'kirjeldamise aasta',
-         "termekis olemas",
+         "nimed termekis",
          "viimane muutmine"
         ];
     }
