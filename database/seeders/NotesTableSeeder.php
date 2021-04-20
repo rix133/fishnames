@@ -17,9 +17,11 @@ class NotesTableSeeder extends Seeder
         $notes =[
             [
                 'id' => 1,
-                'description' => "see on nõme",
+                'description' => "Äkki Atlandi lõhe oleks parem",
                 'user_id'=> 2,
                 'estname_id'=> 2,
+                'updated_at' => date("Y-m-d H:i:s",strtotime("+1 day")),
+                'created_at' => date("Y-m-d H:i:s"),
             ],
         ];
         Note::insert($notes);
