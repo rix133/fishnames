@@ -68,11 +68,7 @@ class SpeciesHelper
     public static function search($showInprogress, $searchString){
         $species = Specie::query()->orderBy("updated_at", "desc");
 
-        if($showInprogress){
-            $species = $species->whereNull('confirmed_estname_id')
-           ->whereNull('new_id');
-       }
-
+       
         if(strlen($searchString) == 0){
             $species = $species->with('estnames.notes.user');
   
@@ -86,6 +82,11 @@ class SpeciesHelper
             ->orWhereIn('id', $est_id)
             ->with(['estnames.notes.user']);
         }
+
+        if($showInprogress){
+            $species = $species->whereNull('confirmed_estname_id')
+           ->whereNull('new_id');
+       }
         
 
         return $species->paginate(20);
