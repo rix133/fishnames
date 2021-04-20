@@ -1,4 +1,4 @@
-@can('species_access')
+@can('estname_access')
     <form action={{ route('estnames.termeki') }} method="post">
         @method('PUT')
         @csrf
