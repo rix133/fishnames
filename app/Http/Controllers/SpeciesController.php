@@ -103,7 +103,9 @@ class SpeciesController extends Controller
         abort_if(Gate::denies('species_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         Estname::where('specie_id', $id)
         ->where('accepted', true)
-        ->update(['accepted' => false]);    
+        ->update(['accepted' => false]); 
+        
+        Specie::find($id)->update(['confirmed_estname_id'=>null]);
 
         return redirect()->route('species.index', ['showInprogress' => true]);
     } 
