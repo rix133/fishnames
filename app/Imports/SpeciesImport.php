@@ -47,7 +47,11 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
             $sp->sources()->sync($source_ids);
                 
             if($row['est_name']){
-                $this->insertEstName($row, $user, $sp);
+                $estNames = explode("e.", $row['est_name']);
+                foreach ($estNames as $name) {
+                    $this->insertEstName($name, $row, $user, $sp);
+                }
+                
             }
 
             if($row['old_est_name']){
@@ -63,20 +67,24 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
         }
         
     }
-    protected function insertEstName($row, $user, $sp){
+    protected function insertEstName($name, $row, $user, $sp){
+        $inTermeki = true;
         if($row['updated_year']){
             $date =  Carbon::createFromDate($row['updated_year'], $row['updated_month'], $row['updated_day']);
+            if($row['updated_year'] > 2019){
+                $inTermeki = false;
+            }
         }
 
-        $estName = Estname::where("est_name", $row['est_name'])->first();
+        $estName = Estname::where("est_name", $name)->first();
         if(is_null($estName)){
             $estName = Estname::create([
-                'est_name' => $row['est_name'],
+                'est_name' => $name,
                 'est_genus' => $row['est_genus'],
                 'user_id' => $user->id,
                 'specie_id' => $sp->id,
                 'accepted' => true,
-                'in_termeki'=>true,
+                'in_termeki'=>$inTermeki,
             ]);
         }
         else{
@@ -88,12 +96,12 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 ]);
                 $estName->update(
                     [
-                        'est_name' => $row['est_name'],
+                        'est_name' => $name,
                         'est_genus' => $row['est_genus'],
                         'user_id' => $user->id,
                         'specie_id' => $sp->id,
                         'accepted' => true,
-                        'in_termeki'=>true,
+                        'in_termeki'=>$inTermeki,
                     ]
                     );
             }
