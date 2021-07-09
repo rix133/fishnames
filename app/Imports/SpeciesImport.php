@@ -33,22 +33,44 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
             if(is_null($row['latin_name'])){
                 continue;
             }
-            
+            $addNote = false;
             $source_ids = $this->getSources($row, $user);
-
-            $sp = Specie::create([
-                'latin_name' => $row['latin_name'],
-                'eng_name' => $row['eng_name'],
-                'latin_family' => $row['latin_family'],
-                'user_id' => $user->id,
-                'year_described' => $row['year_described'],
-                'describer' => $row['describer'],
-            ]);
+            $sp = Specie::where("latin_name", $row['latin_name'])->first();
+            #do not overwrite if exists
+            if(is_null($sp)){
+                $sp = Specie::create([
+                    'latin_name' => $row['latin_name'],
+                    'eng_name' => $row['eng_name'],
+                    'latin_family' => $row['latin_family'],
+                    'user_id' => $user->id,
+                    'year_described' => $row['year_described'],
+                    'describer' => $row['describer'],
+                ]);
+                
+            }
+            else{
+                #only if this has been a old name
+                if(!is_null($sp->new_id)){
+                    $row['old_sp_name'] = Specie::find($sp->new_id)->latin_name;
+                $sp->update([
+                    'eng_name' => $row['eng_name'],
+                    'latin_family' => $row['latin_family'],
+                    'user_id' => $user->id,
+                    'year_described' => $row['year_described'],
+                    'describer' => $row['describer'],
+                    'new_id' => null
+                ]);
+               $addNote = true; 
+                }
+                
+            }
             $sp->sources()->sync($source_ids);
+            
                 
             if($row['est_name']){
                 $estNames = explode("e.", $row['est_name']);
                 foreach ($estNames as $name) {
+                    $name = trim($name);
                     $this->insertEstName($name, $row, $user, $sp);
                 }
                 
@@ -62,11 +84,30 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 $this->insertOldLatinName($row, $user, $sp);
             }
 
+            if($addNote){
+                $this->addLatinSpeciesNote($row, $user, $sp);
+            }
+
 
             
         }
         
     }
+
+    protected function addLatinSpeciesNote($row, $user, $sp){
+        $estName = Estname::where("est_name", $row['est_name'])->first();
+        if(is_null($estName)){ 
+        }
+        else{
+            Note::create([
+                'user_id' => $user->id,
+                'estname_id' => $estName->id,
+                'description' => "".$sp->latin_name." on ka liigi ".$row['old_sp_name']."  kehtetu nimi"
+            ]);
+        }
+    }
+
+
     protected function insertEstName($name, $row, $user, $sp){
         $inTermeki = true;
         if($row['updated_year']){
@@ -75,7 +116,6 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 $inTermeki = false;
             }
         }
-
         $estName = Estname::where("est_name", $name)->first();
         if(is_null($estName)){
             $estName = Estname::create([
@@ -92,7 +132,7 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 Note::create([
                     'user_id' => $user->id,
                     'estname_id' => $estName->id,
-                    'description' => "See nimi esineb ka liigi ".$estName->specie->latin_name." vana nimena"
+                    'description' => $name." esineb ka liigi ".$estName->specie->latin_name." vana nimena"
                 ]);
                 $estName->update(
                     [
@@ -109,7 +149,7 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
                 Note::create([
                     'user_id' => $user->id,
                     'estname_id' => $estName->id,
-                    'description' => "See nimi on liikidel ".$estName->specie->latin_name." ja ".$sp->latin_name." põhi nimena!"
+                    'description' => $name." on liikidel ".$estName->specie->latin_name." ja ".$sp->latin_name." põhi nimena!"
                 ]); 
             }
             
@@ -126,40 +166,50 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
     }
 
     protected function insertOldEstName($row, $user, $sp){
-        $estName_old = Estname::where("est_name", $row['old_est_name'])->first();
-        if(is_null($estName_old)){
-            $estName_old = Estname::create([
-                'est_name' => $row['old_est_name'],
-                'est_genus' => $row['est_genus'],
-                'user_id' => $user->id,
-                'specie_id' => $sp->id,
-                'accepted' => false
-            ]); 
+        $estNames = explode(", ", $row['old_est_name']);
+        foreach ($estNames as $name) {
+            $name = trim($name);
+            $estName_old = Estname::where("est_name", $name)->first();
+            if(is_null($estName_old)){
+                $estName_old = Estname::create([
+                    'est_name' => $name,
+                    'est_genus' => $row['est_genus'],
+                    'user_id' => $user->id,
+                    'specie_id' => $sp->id,
+                    'accepted' => false
+                ]); 
+            }
+            else{
+                Note::create([
+                    'user_id' => $user->id,
+                    'estname_id' => $estName_old->id,
+                    'description' => $name." esineb ka liigi ".$sp->latin_name." vana nimena"
+                ]);
+            }
         }
-        else{
-            Note::create([
-                'user_id' => $user->id,
-                'estname_id' => $estName_old->id,
-                'description' => "See nimi esineb ka liigi ".$sp->latin_name." vana nimena"
-            ]);
-        }
+
+        
     }
 
     protected function insertOldLatinName($row, $user, $sp){
-        $sp_old = Specie::where("latin_name", $row['old_latin_name'])->first();
-        #do not overwrite if exists
-        if(is_null($sp_old)){
-            $sp_old = Specie::create([
-                'latin_name' => $row['old_latin_name'],
-                'eng_name' => $row['eng_name'],
-                'latin_family' => $row['latin_family'],
-                'user_id' => $user->id,
-                'new_id' => $sp->id,   
-            ]);
-        }
-        else{
-            $sp_old->new_id = $sp->id;
-            $sp_old->save();
+        $latinNames = explode(", ", $row['old_latin_name']);
+        foreach ($latinNames as $name) {
+            $name = trim($name);
+            $sp_old = Specie::where("latin_name", $name)->first();
+            #do not overwrite if exists
+            if(is_null($sp_old)){
+                $sp_old = Specie::create([
+                    'latin_name' => $name,
+                    'eng_name' => $row['eng_name'],
+                    'latin_family' => $row['latin_family'],
+                    'user_id' => $user->id,
+                    'new_id' => $sp->id,   
+                ]);
+            }
+            else{
+                $sp_old->new_id = $sp->id;
+                $sp_old->save();
+            }
         }
                 
     }
@@ -206,7 +256,13 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
            'year_described' =>[
                'nullable',
                'integer'
-           ]
+           ],
+           'updated_year' =>[
+            'nullable',
+            'integer',
+            'max:'.(date('Y')+1)
+        ]
+
 
         ];
     }
