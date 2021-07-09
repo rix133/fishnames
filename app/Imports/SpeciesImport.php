@@ -255,7 +255,7 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
             ],
            'year_described' =>[
                'nullable',
-               'integer'
+               'string'
            ],
            'updated_year' =>[
             'nullable',
@@ -297,6 +297,9 @@ class SpeciesImport implements ToCollection, WithHeadingRow, WithValidation
 
         $row['year_described'] = $row['year_described'] ??
         $row['kirjeldamise_aasta'] ?? $row['aasta'] ?? null;
+
+        #make this a string
+        $row['year_described'] = $row['year_described']."";
 
         $row['updated_year'] = $row['toimaasta'] ?? null;
         $row['updated_month'] = $row['tkuu'] ?? null;

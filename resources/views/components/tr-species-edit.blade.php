@@ -27,7 +27,7 @@
         <label for="year_described">Kirjeldamise aasta</label>
     </th>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-    <input type="number" name="year_described" id="year_described" class="form-input rounded-md shadow-sm mt-1 block w-full"
+    <input type="text" name="year_described" id="year_described" class="form-input rounded-md shadow-sm mt-1 block w-full"
             value="{{ old('year_described', $species->year_described) }}" />
         @error('year_described')
             <p class="text-sm text-red-600">{{ $message }}</p>

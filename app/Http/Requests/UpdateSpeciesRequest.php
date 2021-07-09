@@ -33,7 +33,7 @@ class UpdateSpeciesRequest extends FormRequest
                 'nullable',
             ],
             'year_described'    => [
-                'integer',
+                'string',
                 'nullable',
             ],
         ];
